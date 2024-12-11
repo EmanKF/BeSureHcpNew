@@ -51,6 +51,7 @@ class WebSocketService {
             else if(action == 'PaymentFrontDesk'){
               Map map = Map();
               map['action'] = 'PaymentFrontDesk';
+              map['lang'] = decodedMessage['LanguageId'];
               Observable.instance.notifyObservers([
               "_ConfirmServicesState",
               ], notifyName : "update",map: map);
@@ -58,6 +59,7 @@ class WebSocketService {
             else if(action == 'GeneratePaymentLink'){
               Map map = Map();
               map['action'] = 'GeneratePaymentLink';
+              map['lang'] = decodedMessage['LanguageId'];
               Observable.instance.notifyObservers([
               "_ConfirmServicesState",
               ], notifyName : "update",map: map);

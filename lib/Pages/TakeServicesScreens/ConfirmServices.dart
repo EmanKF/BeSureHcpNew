@@ -302,13 +302,13 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
   }
 
   @override
-  update(Observable observable, String? notifyName, Map? map) async{
-    log(map.toString());
-    log(map!['action']);
-    if(map!['action'] == 'PaymentFrontDesk'){
+  update(Observable observable, String? notifyName, Map? map1) async{
+    log(map1.toString());
+    log(map1!['action']);
+    if(map1!['action'] == 'PaymentFrontDesk'){
       showDialog(context: context, builder: (context) => ConfirmationPopUp(name: widget.name, cardId: widget.cardId, clientID: widget.clientId,));
     }
-    else if(map['action'] == 'GeneratePaymentLink'){
+    else if(map1['action'] == 'GeneratePaymentLink'){
       Map map = new Map();
                         map["id"] = widget.cardId;
                         map["clientId"] = widget.clientId;
@@ -319,10 +319,13 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                         map["commision"] = 0;
                         map["is_Paid_By_Amazon"] = true;
                         map["is_Cancel"] = false;
+                        map['LanguageId'] = map1['lang'];
                         map["date"] = DateTime.now().toIso8601String();
                         log(jsonEncode(map));
+                        log('vodeeee');
                         String url = await payCredit(map);
                         log(url);
+                        log('msggg');
 
                         /////////////////
                         ///
