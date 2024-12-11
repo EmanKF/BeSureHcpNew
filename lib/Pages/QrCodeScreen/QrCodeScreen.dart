@@ -178,31 +178,34 @@ class _QrCodeScreenState extends ConsumerState<QrCodeScreen> {
                     key: keyQrScanner,
                     width: 60.w,
                     height: 60.w,
-                    child: MobileScanner(
-                      controller: controller,
-                       overlay: Lottie.asset(
-                            'assets/animations/qrscan.json',
-                            width: 60.w,
-                            height: 60.w,
-                          ),
+  //                   child: MobileScanner(
+  //                     controller: controller,
+  //                      overlay: Lottie.asset(
+  //                           'assets/animations/qrscan.json',
+  //                           width: 60.w,
+  //                           height: 60.w,
+  //                         ),
                        
-                    // fit: BoxFit.contain,
-                    onDetect: (capture) {
-                     if (isScanning) {
-                      // print('tihsssss iscapturee   '+capture.barcodes.first.rawValue.toString());
-                      // final List<Barcode> barcodes = capture.barcodes;
-                      // final Uint8List? image = capture.image;
-                      // for (final barcode in barcodes) {
-                      //   debugPrint('Barcode found! ${barcode.rawValue}');
-                      // }
-                       setState(() {
-                        isScanning = false;
-                        // qrVal = capture.barcodes.first.rawValue!;
-                      });
-                      checkIfEl(capture.barcodes.first.rawValue);
-                    }
-                    },
-                  ),
+  //                   // fit: BoxFit.contain,
+  //                   onDetect: (capture) {
+  //                    if (isScanning) {
+  //                     // print('tihsssss iscapturee   '+capture.barcodes.first.rawValue.toString());
+  //                     // final List<Barcode> barcodes = capture.barcodes;
+  //                     // final Uint8List? image = capture.image;
+  //                     // for (final barcode in barcodes) {
+  //                     //   debugPrint('Barcode found! ${barcode.rawValue}');
+  //                     // }
+  //                      setState(() {
+  //                       isScanning = false;
+  //                       // qrVal = capture.barcodes.first.rawValue!;
+  //                     });
+  //                     checkIfEl(capture.barcodes.first.rawValue);
+  //                   }
+  //                   },
+  //                   errorBuilder: (context, error, widget) {
+  //        return Container(child: Text('mm'),);
+  // }    ,
+  //                 ),
                   ),
                   // if (result != null)
                   //         Text(

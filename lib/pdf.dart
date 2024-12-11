@@ -30,31 +30,11 @@ Future<void> showDownloadNotification(String filePath) async {
   const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('app_icon');
 
-  // final IOSInitializationSettings initializationSettingsIOS =
-  //     IOSInitializationSettings(
-  //         requestAlertPermission: false,
-  //         requestBadgePermission: false,
-  //         requestSoundPermission: false,
-  //         onDidReceiveLocalNotification: (
-  //           int id,
-  //           String? title,
-  //           String? body,
-  //           String? payload,
-  //         ) async {
-  //           // didReceiveLocalNotificationSubject.add(
-  //           //   ReceivedNotification(
-  //           //     id: id,
-  //           //     title: title,
-  //           //     body: body,
-  //           //     payload: payload,
-  //           //   ),
-  //           );
-  //         });  
-    
+  const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(defaultPresentSound: true, defaultPresentBadge: true, defaultPresentAlert: true);
 
   final InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
-    // iOS: initializationSettingsIOS,
+    iOS: initializationSettingsIOS,
   );    
 
   flutterLocalNotificationsPlugin.initialize(

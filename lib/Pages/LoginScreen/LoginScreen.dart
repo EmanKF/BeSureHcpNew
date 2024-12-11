@@ -15,7 +15,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mac_address/mac_address.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:besure_hcp/Pages/BaseScreen/BaseScreen.dart';
 import 'package:besure_hcp/Pages/ForgetPasswordScreen/FindAccountScreen.dart';
@@ -54,36 +53,36 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
   List? tabs;
   int _currentIndex = 0;
 
-  Future<String?> getDeviceId() async {
-    var deviceInfo;
-    if(!kIsWeb){
-    if (Platform.isIOS) { 
-      deviceInfo = DeviceInfoPlugin();
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-    } else if(Platform.isAndroid) {
-        try {
-        deviceInfo = await GetMac.macAddress;
-        } on PlatformException {
-          deviceInfo = 'Failed to get Device MAC Address.';
-        }
-        return deviceInfo;
-      // var androidDeviceInfo = await deviceInfo.androidInfo;
-      // return androidDeviceInfo.id; // unique ID on Android
-    }
-    }
-    // else{
-    //    try {
-    //     deviceInfo = await GetMac.macAddress;
-    //     } on PlatformException {
-    //       deviceInfo = 'Failed to get Device MAC Address.';
-    //     }
-    //     return deviceInfo;
-    //   // var androidDeviceInfo = await deviceInfo.androidInfo;
-    //   // return androidDeviceInfo.id; // unique ID on Android
+  // Future<String?> getDeviceId() async {
+  //   var deviceInfo;
+  //   if(!kIsWeb){
+  //   if (Platform.isIOS) { 
+  //     deviceInfo = DeviceInfoPlugin();
+  //     var iosDeviceInfo = await deviceInfo.iosInfo;
+  //     return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  //   } else if(Platform.isAndroid) {
+  //       try {
+  //       deviceInfo = await GetMac.macAddress;
+  //       } on PlatformException {
+  //         deviceInfo = 'Failed to get Device MAC Address.';
+  //       }
+  //       return deviceInfo;
+  //     // var androidDeviceInfo = await deviceInfo.androidInfo;
+  //     // return androidDeviceInfo.id; // unique ID on Android
+  //   }
+  //   }
+  //   // else{
+  //   //    try {
+  //   //     deviceInfo = await GetMac.macAddress;
+  //   //     } on PlatformException {
+  //   //       deviceInfo = 'Failed to get Device MAC Address.';
+  //   //     }
+  //   //     return deviceInfo;
+  //   //   // var androidDeviceInfo = await deviceInfo.androidInfo;
+  //   //   // return androidDeviceInfo.id; // unique ID on Android
     // }
 
-  }
+  // }
   
   @override
   void initState() {
