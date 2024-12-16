@@ -278,6 +278,9 @@ class _EditEmployeeProfileState extends State<EditEmployeeProfile> {
                       child: isLoading == false ?
                       TextButton(
                         onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
                           // if(name.text.isNotEmpty && email.text.isNotEmpty && password.text.isNotEmpty && selectedBranchId != 0){
                           if(name.text.isEmpty){
                             showDialog(context: context, builder: (context) => MsgDialog(msg: SplashScreen.langId == 1 ? 'ادخل اسم الموظف' : 'Add Employee Name'));
@@ -322,24 +325,27 @@ class _EditEmployeeProfileState extends State<EditEmployeeProfile> {
                           // map["created_by"] = 0;
                           print(json.encode(map));
                           bool uId = await editSPUser(map);
-                          print(uId);
+                          log(uId.toString());
                           log(uId.toString());
                           if(uId != ''){
-                          //   if(branchImage != null){
-                          //   String addImageRes = await addUserImage(branchImage!, uId);
-                          //   print(addImageRes);
-                          //   }
+                            if(branchImage != null){
+                            String addImageRes = await addUserImage(branchImage!, widget.spUser!.id!);
+                            print(addImageRes);
+                            }
                             Observable.instance.notifyObservers([
                             "_ManageAccountsScreenState",
                             ], notifyName : "update");
                             Navigator.pop(context);
-                            showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.userAddedSuccessfully));
+                            showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.userEditedSuccessfully));
                           }
                           else{
-                            showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.failedToAddUser));
+                            showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.failedToEditUser));
                           }
                           }
                         }
+                        setState(() {
+                          isLoading = false;
+                        });
                        
                         },
                         child: Text(

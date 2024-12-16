@@ -25,6 +25,8 @@ import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
 import 'package:besure_hcp/Services/BranchesServices.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_observer/Observable.dart';
+import 'package:flutter_observer/Observer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
@@ -40,13 +42,34 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with Observer{
   String branchName = '';
 
   @override
   void initState() {
+    Observable.instance.addObserver(this);
     super.initState();
     loadApis();
+  }
+
+  @override
+  void dispose() {
+    Observable.instance.removeObserver(this);
+    super.dispose();
+  }
+  
+
+
+  String formatNumber(int number){
+    if(number >= 1000000){
+      return (number/1000000).toStringAsFixed(1)+'M';
+    }
+    else if(number >= 1000){
+      return (number/1000).toStringAsFixed(1)+'k';
+    }
+    else{
+      return number.toString();
+    }
   }
 
   void loadApis() async{
@@ -138,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 4.w,
                         ),
                          Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   if(LoginScreen.isAdmin != true && LoginScreen.isAdmin != "true" && LoginScreen.isAdmin != "True" && BaseScreen.loggedInSP!.serviceProvideName_en != null && BaseScreen.loggedInSP!.serviceProvideName_en != '')
                                   Container(
@@ -148,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           SplashScreen.langId! == 1 ? BaseScreen.loggedInSP!.serviceProvideName! : BaseScreen.loggedInSP!.serviceProvideName_en!,
                                           style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 11.sp
+                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 16.sp
                                         ),),
                                         // SizedBox(width:5),
                                         // InkWell(
@@ -179,19 +203,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: [
                                         Text(BaseScreen.loggedInSP!.name!, style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 11.sp
+                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 16.sp
                                         ),),
-                                        if(LoginScreen.isAdmin == "true" || LoginScreen.isAdmin == "True")
-                                        Text(
-                                          '('+AppLocalizations.of(context)!.admin+')', style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 11.sp
-                                        ),),
+                                        // if(LoginScreen.isAdmin == "true" || LoginScreen.isAdmin == "True")
+                                        // Text(
+                                        //   '('+AppLocalizations.of(context)!.admin+')', style: TextStyle(
+                                        //   fontWeight: FontWeight.bold,
+                                        //   fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 16.sp
+                                        // ),),
                                         if(LoginScreen.isAdmin != "true" && LoginScreen.isAdmin != "True")
                                         Text(
                                           ' ('+ AppLocalizations.of(context)!.employee+')', style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 11.sp
+                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 16.sp
                                         ),),
                                       ],
                                     ),
@@ -217,6 +241,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   //       ),
                                   //     ),
                                   // SizedBox(height: 1.h),
+                                  if(LoginScreen.isAdmin == "true" || LoginScreen.isAdmin == "True")
+                                        Text(
+                                          '('+AppLocalizations.of(context)!.admin+')', style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 15.sp
+                                        ),),
                                    Container(
                                     width: 50.w,
                                      child: Text(branchName, style: TextStyle(
@@ -238,11 +268,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ( text : TextSpan(
                                   children: [
                                     TextSpan(
-                                    text:HomeScreen.loyaltyPoints.toString(),
+                                    text:formatNumber(HomeScreen.loyaltyPoints),
                                       style: TextStyle(color:Colors.white, fontWeight: FontWeight.w500),
                                   ),
                                   TextSpan(
-                                    text: '  pts',
+                                    text: AppLocalizations.of(context)!.points,
                                       style: TextStyle(color:Colors.white, fontWeight: FontWeight.w400),
                                   ),
 
@@ -297,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
-                                fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 12.sp),
+                                fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
                             )
                           ],
                         ),
@@ -344,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.bold,
                                         fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
                                         color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 12.sp),
+                                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
                                     ),
                                   ],
                                 )
@@ -392,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 12.sp),
+                                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
                                     ),
                                   ],
                                 )
@@ -499,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       AppLocalizations.of(context)!.services,
                       style:
-                          TextStyle(color: silverLakeBlue, fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 7.sp : 14.sp),
+                          TextStyle(color: silverLakeBlue, fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 7.sp : 18.sp),
                     ),
                   ],
                 ),
@@ -529,7 +559,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: Text(
                             AppLocalizations.of(context)!.viewAll,
-                            style: TextStyle(fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp :9.sp),
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp :14.sp),
                           ))
                     ],
                   ),
@@ -589,6 +619,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
       }
+
+  @override
+  update(Observable observable, String? notifyName, Map? map) {
+    setState(() {
+      
+    });
+  }
   //   );
   // }
 }

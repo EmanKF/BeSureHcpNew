@@ -47,6 +47,7 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
   void initState() {
     super.initState();
     addedServices = widget.appointment!.clientServices!;
+    ref.read(websocketProvider).connect(ref);
   }
   @override
   void dispose(){
@@ -60,6 +61,53 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
   updateStatus() async{
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('TakeServiceDisplayedBefore',true);
+  }
+  
+
+  void sendWebSocketMessage(List<ServiceModel> list) async{
+    var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    log(onesignalId+' on send msg');
+    final prefs = await SharedPreferences.getInstance();
+        String id = prefs.getString('SPId') ?? '';
+        List<Map> mapList = List.empty(growable: true);
+        for(ServiceModel s in list){
+          // if(s.dis == null) s.dis = 0 ;
+          Map<String,dynamic> map = new Map();
+          num discountValue = (s.price! * s.dis!)/100;
+          num priceAfterDiscount = s.price! - discountValue;
+          map['Id'] = 0;
+          map['ServiceProviderServicesId'] = s.serviceProviderServicesId;
+          map['ClientCardId'] = 0;
+          map['Service'] = s.name;
+          map['ServiceImage'] = "string";
+          map['Amount'] = priceAfterDiscount;
+          map['Discount'] = discountValue;
+          map['Note'] = "Note";
+          map["ServiceDiscount"] = 0;
+          map["Is_Accepted"] = true;
+          mapList.add(map);
+        }
+        
+        final message = {
+          "Id":0,
+          "Action":"ClientCardPopup",
+          "Message":"PopupClientCard",
+          "ClientPoints":0,
+          "ClientName_en":widget.appointment!.client!.fullName_en,
+          "SPName_en":"",
+          "ClientName":widget.appointment!.client!.fullName,
+          "SPName":"",
+          "SPPoints":0,
+          "SP": id,
+          "SPDeviceId":onesignalId,
+          "BranchId" : 0,
+          "Client": widget.appointment!.client!.id,
+          "Data":["String"],
+          "ClientCard": mapList
+            };
+            log(jsonEncode(message));
+            log(message.toString());
+      ref.read(websocketProvider).sendMessage(jsonEncode(message));
   }
 
 
@@ -218,6 +266,7 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                               selectedService!.dis = r;
                             });
                           }
+                          if(selectedService!.isEligible == true){
                           if(selectedService!.price == 0){
                             showDialog(context: context, builder: (context) => AddPriceDialog()).then((value) {
                               // print(value);
@@ -238,7 +287,11 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                         // print(addedServices.first);
                         
                         }
-
+                        
+                          }
+                          else{
+                            showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.notEligibleService));
+                          }
 
                         
 
@@ -276,7 +329,7 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                             Text(sm.dis!.toString() + '%', style: TextStyle(
                               color: Colors.red
                             )),
-                             if(sm.isEligible! == true)
+                            //  if(sm.isEligible! == true)
                              SizedBox(
                               width: 3.w,
                             ),
@@ -369,8 +422,8 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                         //   isLoadingPay = false;
                         // });
                         // log(clientCardId.toString()+' client card iddd');
-                        
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ConfirmServices(amount: amount, name: widget.appointment!.clientId!.toString(), services: addedServices, cardId: widget.appointment!.id, clientId: widget.appointment!.clientId,)));
+                        sendWebSocketMessage(addedServices);
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ConfirmServices(amount: amount, name: widget.appointment!.client!.fullName, services: addedServices, cardId: widget.appointment!.id, clientId: widget.appointment!.clientId,)));
                       }
                       }, 
                       child: Text(AppLocalizations.of(context)!.pay, style: TextStyle(
@@ -416,7 +469,7 @@ class AddPriceDialog extends StatelessWidget {
               controller: value,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-              prefix: Text('SAR', style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.bold),),
+              prefix: Text(AppLocalizations.of(context)!.sar, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.bold),),
               hintText: AppLocalizations.of(context)!.price,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.0)

@@ -2,6 +2,7 @@ import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Services/ReconcilationReportsServices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_observer/Observable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class DisapprovePopUp extends StatefulWidget {
@@ -28,7 +29,7 @@ class _DisapprovePopUpState extends State<DisapprovePopUp> {
           children: [
             Container(
               margin: EdgeInsets.all(5.0),
-              child: Text('Disapprove Reconcilation:'),
+              child: Text(AppLocalizations.of(context)!.disapproveReconcilation+':'),
             ),
             Container(
               margin: EdgeInsets.all(5.0),
@@ -37,7 +38,7 @@ class _DisapprovePopUpState extends State<DisapprovePopUp> {
                 controller: text,
                 decoration: InputDecoration(
                 prefixIcon: Icon(Icons.description),
-                hintText: 'Reason',
+                hintText: AppLocalizations.of(context)!.reason,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15.0)
                 ),
@@ -75,7 +76,7 @@ class _DisapprovePopUpState extends State<DisapprovePopUp> {
                       Navigator.pop(context);
                     }, 
                     child: isDone == false? LoadingAnimationWidget.waveDots(color: Colors.white, size: 20)
-                    : Text('Send', style: TextStyle(color: Colors.white),)),
+                    : Text(AppLocalizations.of(context)!.send, style: TextStyle(color: Colors.white),)),
                 )
               ],
             )

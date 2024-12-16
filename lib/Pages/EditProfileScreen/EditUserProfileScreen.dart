@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Pages/BaseScreen/BaseScreen.dart';
@@ -105,7 +106,10 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                         borderRadius: BorderRadius.circular(15.0)),
                     child: isLoading == false ?
                     TextButton(
-                        onPressed: () async {                
+                        onPressed: () async {      
+                          setState(() {
+                            isLoading = true;
+                          });          
                           var map = new Map(); 
                           map['id'] = BaseScreen.loggedInSP!.id!;
                           map['name'] = name.text;
@@ -124,7 +128,7 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                           map['profile'] = '';
                           bool res = await editServiceProviderInfo(map);
                           if(res == true){
-                            print('trueeeeeeee');
+                            log('trueeeeeeee');
                             await getServiceProviderBasicInfo(BaseScreen.loggedInSP!.id!);
                             setState(() {
                               
@@ -133,6 +137,9 @@ class _EditUserProfileScreenState extends State<EditUserProfileScreen> {
                           else{
                             print('falseeeeeeeee');
                           }
+                          setState(() {
+                            isLoading = false;
+                          });
                         },
                         child: Text('Save',
                             style: TextStyle(

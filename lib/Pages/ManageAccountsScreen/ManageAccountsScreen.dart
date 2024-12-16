@@ -143,7 +143,7 @@ class _ManageAccountsScreenState extends State<ManageAccountsScreen> with Observ
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(AppLocalizations.of(context)!.addUser, style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 12.sp,
+                fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 17.sp,
                 color: Colors.white
               ),),
               Icon(Icons.add, color: Colors.white)

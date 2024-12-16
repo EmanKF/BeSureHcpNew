@@ -19,7 +19,7 @@ Future<bool> getAllSPUsers() async{
       "Authorization": "Bearer " + LoginScreen.token
     },
   );
-  // log(getAllSPUsersResponse.body);
+  log(getAllSPUsersResponse.body);
   Map getAllSPUsersMapResponse = json.decode(getAllSPUsersResponse.body);
   if(getAllSPUsersMapResponse['httpStatusCode'] == 200){
     ManageAccountsScreen.sPUsers = ServiceProvider.listFromJson(getAllSPUsersMapResponse['data']);
@@ -42,7 +42,7 @@ Future<String> addSPUser(Map map) async{
     // "Authorization": "Bearer " + LoginScreen.token
     },
   );
-  // log(addSPUserResponse.body);
+  log(addSPUserResponse.body);
   // print(addSPUserResponse.body);
   Map addSPUserMapResponse = json.decode(addSPUserResponse.body);
   if(addSPUserMapResponse['httpStatusCode'] == 200){
@@ -99,7 +99,7 @@ Future<bool> editSPUser(Map map) async {
       "Authorization": "Bearer " + LoginScreen.token
     },
   );
-  // log(editInfoResponse.body);
+  log(editInfoResponse.body);
   Map editInfoMapResponse = json.decode(editInfoResponse.body);
   if (editInfoMapResponse["httpStatusCode"] == 200) {
     return true;

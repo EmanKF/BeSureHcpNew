@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
@@ -108,7 +109,7 @@ class _AddServiceProviderUserScreenState extends State<AddServiceProviderUserScr
                     ),
                     child: ClipRRect( 
                       child: branchImage == null ? Image.asset("assets/images/noImageIcon.jpg")
-                      :Image.file(branchImage!),
+                      :Image.file(branchImage!, fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(300.0),
                     ),
                   ),
@@ -279,6 +280,9 @@ class _AddServiceProviderUserScreenState extends State<AddServiceProviderUserScr
                       child: isLoading == false ?
                       TextButton(
                         onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
                           // if(name.text.isNotEmpty && email.text.isNotEmpty && password.text.isNotEmpty && selectedBranchId != 0){
                             bool hasMinLength = password.text.length > 7;
                           if(name.text.isEmpty){
@@ -324,16 +328,16 @@ class _AddServiceProviderUserScreenState extends State<AddServiceProviderUserScr
                           map["profile"] = "string";
                           map['serviceProviderBranchesId'] = selectedBranchId;
                           map["genderId"] = selectedGenderId != null ? selectedGenderId : 0;
-                          map["is_Blocked"] = false;
                           map["is_Admin"] = true;
-                          map["created_by"] = 0;
+                          map["serviceProviderId"] = BaseScreen.loggedInSP!.id;
                           print(json.encode(map));
                           String uId = await addSPUser(map);
-        
+                          print(uId);
                           if(uId != ''){
                             if(branchImage != null){
+                              print('lolll');
                             String addImageRes = await addUserImage(branchImage!, uId);
-                            print(addImageRes);
+                            log(addImageRes);
                             }
                             Observable.instance.notifyObservers([
                             "_ManageAccountsScreenState",
@@ -346,6 +350,9 @@ class _AddServiceProviderUserScreenState extends State<AddServiceProviderUserScr
                           }
                           }
                         }
+                          setState(() {
+                            isLoading = false;
+                          });
                        
                         },
                         child: Text(

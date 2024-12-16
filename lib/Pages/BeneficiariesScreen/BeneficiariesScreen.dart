@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Dialogs/MsgDialog.dart';
 import 'package:besure_hcp/Models/Branch.dart';
+import 'package:besure_hcp/Models/Month.dart';
+import 'package:besure_hcp/Models/DateType.dart';
 import 'package:besure_hcp/Models/ChartData.dart';
 import 'package:besure_hcp/Models/ChartDataCategory.dart';
 import 'package:besure_hcp/Models/ReportTransaction.dart';
@@ -37,6 +39,13 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
   bool isLoading = false, isSelected_fromDate = false, isSelected_toDate = false;
   // List<ChartData> chartDataByTime = [];
   List<ChartDataCategory> chartData = [];
+  List<StatisticsData> statsData = List<StatisticsData>.empty(growable: true);
+   List<ReportTransaction> reports = List.empty(growable: true);
+  //  List<ReportTransaction> reportsByMonth = List.empty(growable: true);
+   List<DateType> dateTypes =[];
+   List<Month> months = [];
+   int selectedDateTypeVal = 1;
+   int selectedMonthVal =1;
 
 
   @override
@@ -70,9 +79,20 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
   
   @override
   Widget build(BuildContext context) {
-   List<StatisticsData> statsData = List<StatisticsData>.empty(growable: true);
-   List<ReportTransaction> reports = List.empty(growable: true);
-   
+    months = [
+    Month(id: 1, name: AppLocalizations.of(context)!.jan),
+    Month(id: 2, name: AppLocalizations.of(context)!.feb),
+    Month(id: 3, name: AppLocalizations.of(context)!.mar),
+    Month(id: 4, name: AppLocalizations.of(context)!.apr),
+    Month(id: 5, name: AppLocalizations.of(context)!.may),
+    Month(id: 6, name: AppLocalizations.of(context)!.jun),
+    Month(id: 7, name: AppLocalizations.of(context)!.jul),
+    Month(id: 8, name: AppLocalizations.of(context)!.aug),
+    Month(id: 9, name: AppLocalizations.of(context)!.sep),
+    Month(id: 10, name: AppLocalizations.of(context)!.oct),
+    Month(id: 11, name: AppLocalizations.of(context)!.nov),
+    Month(id: 12, name: AppLocalizations.of(context)!.dec)];
+    dateTypes =[DateType(id: 1, name: AppLocalizations.of(context)!.byMonth), DateType(id: 2, name: AppLocalizations.of(context)!.byDate)];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -92,18 +112,20 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
             SizedBox(
               height: 5.h,
             ),
-
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children:[
     
             if(bId == 0)
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 85.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
                        child: DropdownButtonFormField( 
                               items: BranchesScreen.approvedBranches.map((Branch value){
                                 return new DropdownMenuItem<String>(
                                   value: value.serviceProviderBranchesId.toString(),
                                   child: Container(
-                                    width: 160,
                                     child: Text(value.name!, style: TextStyle(fontSize: 12),)),
                                 );
                               }).toList(),
@@ -116,6 +138,7 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
                                 for(Branch  b in BranchesScreen.approvedBranches){
                                       if(b.serviceProviderBranchesId == int.parse(v.toString())){
                                         setState(() {
+                                          groupedDataFinal.clear();
                                           selectedBranchId = b;
                                         }); 
                                       }
@@ -143,14 +166,13 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
             if(bId != 0)
               Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 90.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
                        child: DropdownButtonFormField( 
                        
                               items: branchNotAdmin.map((Branch value){
                                 return new DropdownMenuItem<String>(
                                   value: value.serviceProviderBranchesId.toString(),
                                   child: Container(
-                                    width: 160,
                                     child: Text(value.name!, style: TextStyle(fontSize: 12),)),
                                 );
                               }).toList(),
@@ -178,7 +200,52 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
                                ),
                             ),                                                                                                                                                                                                                                                                                                
                      ),
+            Container(
+                    margin: EdgeInsets.symmetric(vertical: 1.h),
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
+                       child: DropdownButtonFormField( 
+                       
+                              items: dateTypes.map((DateType value){
+                                return new DropdownMenuItem<String>(
+                                  value: value.id.toString(),
+                                  child: Container(
+                                    child: Text(value.name!, style: TextStyle(fontSize: 12),)),
+                                );
+                              }).toList(),
+                              validator: (val){
+                                 if(val == null)
+                                 return 'Select Date Type';
+                                 else return null;
+                              },
+                              onChanged: (val){
+                                log(val!);
+                                setState((){
+                                  groupedDataFinal.clear();
+                                  selectedDateTypeVal = int.parse(val);
+                                });
+                              },
 
+                                hint: Text(dateTypes.first.name!, style:  TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: silverLakeBlue
+                                    )
+                                ),
+                                decoration: InputDecoration( 
+                                  prefixIcon: Icon(Icons.date_range_rounded, size:30),
+                                  border: OutlineInputBorder(
+
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: silverLakeBlue, width: 1),
+                                ),
+                               ),
+                            ),                                                                                                                                                                                                                                                                                                
+                     ),
+              ]
+            ),
+            
+            if(selectedDateTypeVal == 2)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -223,7 +290,7 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('From Date',textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
+                                  Text(AppLocalizations.of(context)!.from,textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
 
                                   Text(
                                       fromDate != null ? fromDate.toString().split(' ').first.toString() : defaultDate.toString().split(' ').first.toString(),
@@ -275,7 +342,7 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('To Date',textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
+                              Text(AppLocalizations.of(context)!.to,textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
                               Text(
                                   toDate != null ? toDate.toString().split(' ').first.toString() : defaultDate.toString().split(' ').first.toString(),
                                   textScaleFactor: 1.0,
@@ -290,8 +357,52 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
               ],
             ),
 
+            if(selectedDateTypeVal == 1)
+            Container(
+                    margin: EdgeInsets.symmetric(vertical: 1.h),
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 93.w ,
+                       child: DropdownButtonFormField( 
+                       
+                              items: months.map((Month value){
+                                return new DropdownMenuItem<String>(
+                                  value: value.id.toString(),
+                                  child: Container(
+                                    width: 160,
+                                    child: Text(value.name!, style: TextStyle(fontSize: 12),)),
+                                );
+                              }).toList(),
+                              validator: (val){
+                                 if(val == null)
+                                 return 'Select Month';
+                                 else return null;
+                              },
+                              onChanged: (val){
+                                setState((){
+                                  groupedDataFinal.clear();
+                                  selectedMonthVal = int.parse(val!);
+                                });
+                              },
+
+                                hint: Text(months.first.name!, style:  TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: silverLakeBlue
+                                    )
+                                ),
+                                decoration: InputDecoration( 
+                                  prefixIcon: Icon(Icons.apartment_rounded, size:30),
+                                  border: OutlineInputBorder(
+
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: silverLakeBlue, width: 1),
+                                ),
+                               ),
+                            ),                                                                                                                                                                                                                                                                                                
+                     ),
+
             SizedBox(
-              height: 2.h,
+              height: 1.h,
             ),
 
             isLoading == true ?
@@ -303,13 +414,64 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
             :
 
             Container(
-              width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 85.w ,
+              width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 93.w ,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
                 color: silverLakeBlue
               ),
               child: TextButton(
                 onPressed: () async{
+                  if(selectedDateTypeVal == 1){
+                     setState(() {
+                          isLoading = true;
+                        });
+                        chartData = [];
+                        Map map = new Map();
+                        int year = DateTime.now().year;
+                        DateTime firstDayOfMonth = DateTime(year, selectedMonthVal, 1);
+                        DateTime lastDayOfMonth = DateTime(year, selectedMonthVal + 1, 0);
+                        map['from'] = firstDayOfMonth.toIso8601String();
+                        map['to'] = lastDayOfMonth.toIso8601String();
+                        map['userId'] = BaseScreen.loggedInSP!.serviceProvideId!;
+                        map['branchId'] = selectedBranchId.serviceProviderBranchesId;
+                        map['type'] = 1;
+                        map['is_Time'] = false;
+                        map['is_SP'] = LoginScreen.isAdmin == "true" || LoginScreen.isAdmin == "True" ? true : false;
+                        
+                        log(json.encode(map));
+                        reports = await getSPReportNew(map);
+                        Map<String, List<ReportTransactionDetails>> groupedData = {};
+                        if(reports.isNotEmpty){
+                        for(var r in reports.first.tranactionDetail!){
+                          DateTime d = DateTime.parse(r.date!);
+                          if(d.month == selectedMonthVal){
+                            
+                            var d = DateTime.parse(r.date!);
+                            String formattedDate = "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}";
+                            
+                            if (groupedData.containsKey(formattedDate)) {
+                              groupedData[formattedDate]!.add(r);
+                            } else {
+                              groupedData[formattedDate] = [r];
+                            }
+                            setState(() {
+                              groupedDataFinal = groupedData;
+                            });
+                          }
+                        }
+                        groupedData.forEach((date, dataList) {
+                            print("Date: $date");
+                            for (var data in dataList) {
+                              print("  - ${data.employeeName}: ${dataList.length}");
+                            }
+                          });
+                        }
+
+                          setState(() {
+                            isLoading = false;
+                          });
+                  }
+                  else{
                   if(fromDate == null || toDate == null){
                     showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.allFieldsAreRequired));
                   }
@@ -372,6 +534,7 @@ class _BeneficiariesScreenState extends State<BeneficiariesScreen> {
                       });
                     
                   }
+                  }
                 }, 
                 child: Text(AppLocalizations.of(context)!.getBeneficiaries, style: TextStyle(color: Colors.white),))
             ),
@@ -431,7 +594,7 @@ class StatsBarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 90.w,
-      height: 200,
+      height: 250,
       child: BarChart(
         BarChartData(
           barGroups: createBarChartData(groupedData),
@@ -447,13 +610,25 @@ class StatsBarChart extends StatelessWidget {
             ),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
+                reservedSize: 50,
                 showTitles: true,
                 getTitlesWidget: (double value, TitleMeta meta) {
                   // Show date labels
                   String dateLabel = groupedData.keys.elementAt(value.toInt());
+                  DateTime dt = DateTime.parse(dateLabel);
+                  int year = dt.year;
+                  int month = dt.month;
+                  String monthName = DateFormat('MMM').format(DateTime(2024, month));
+                  int day = dt.day;
                   return SideTitleWidget(
                     axisSide: meta.axisSide,
-                    child: Text(dateLabel, style: TextStyle(fontSize: 10)),
+                    child: Column(
+                      children: [
+                        Text(day.toString(), style: TextStyle(fontSize: 10)),
+                        Text(monthName, style: TextStyle(fontSize: 10)),
+                        Text(year.toString(), style: TextStyle(fontSize: 10)),
+                      ],
+                    ),
                   );
                 },
               ),

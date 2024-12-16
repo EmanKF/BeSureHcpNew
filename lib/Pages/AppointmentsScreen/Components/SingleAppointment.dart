@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Constants/constantUrls.dart';
 import 'package:besure_hcp/Models/Appointment.dart';
@@ -107,7 +107,7 @@ class _SingleAppointmentState extends State<SingleAppointment> with Observer{
                     children: [
                       Icon(Icons.circle, color: Colors.green, size: 14,),
                       SizedBox(width: 2,),
-                      Text('Confirmed', style: TextStyle(fontSize: 13),)
+                      Text(AppLocalizations.of(context)!.confirmed, style: TextStyle(fontSize: 13),)
                     ],
                   )
                 ],
@@ -155,12 +155,12 @@ class _SingleAppointmentState extends State<SingleAppointment> with Observer{
                               UpdateBookingDate(widget. appointment!.id!,Newdate!.toIso8601String());
 
                               Observable.instance.notifyObservers([
-                              "_SingleAppointmentState",
+                              "_AppointmentsScreenState",
                               ], notifyName : "update");
                             }
                           }
                       },
-                      child: Text('Update Date', style: TextStyle(color: Colors.white),),
+                      child: Text(AppLocalizations.of(context)!.updateDate, style: TextStyle(color: Colors.white),),
                     )
                 ),   
                 Container(
@@ -174,7 +174,7 @@ class _SingleAppointmentState extends State<SingleAppointment> with Observer{
                       onTap: () async{
                         Navigator.push(context, MaterialPageRoute(builder: ((context) => AppointmentDetails(appointment: widget.appointment))));
                       },
-                      child: Text('Give Services', style: TextStyle(color: Colors.white),),
+                      child: Text(AppLocalizations.of(context)!.giveServices, style: TextStyle(color: Colors.white),),
                     )
                 ),                     
               ],

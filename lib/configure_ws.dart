@@ -29,8 +29,8 @@ class WebSocketService {
       String id = prefs.getString('SPId') ?? '';
 
       if (id.isNotEmpty) {
-        log('wss://testapi.esnadtakaful.com/api/ws?userId=$id');
-        final url = 'wss://testapi.esnadtakaful.com/api/ws?userId=$id&deviceId=$onesignalId';
+        log('wss://api.esnadtakaful.com/api/ws?userId=$id');
+        final url = 'wss://api.esnadtakaful.com/api/ws?userId=$id&deviceId=$onesignalId';
         log('Connecting to WebSocket at $url');
         channel = WebSocketChannel.connect(Uri.parse(url));
         log('WebSocket connected successfully.');
@@ -65,9 +65,18 @@ class WebSocketService {
               ], notifyName : "update",map: map);
             }
             else if(action == "PaymentSuccess"){
+              Map map = Map();
+              map['action'] = 'PaymentSuccess';
               Observable.instance.notifyObservers([
               "_PayingDialogState",
-              ], notifyName : "update");
+              ], notifyName : "update",map: map);
+            }
+            else if(action == "PaymentFailed"){
+              Map map = Map();
+              map['action'] = 'PaymentFailed';
+              Observable.instance.notifyObservers([
+              "_PayingDialogState",
+              ], notifyName : "update",map: map);
             }
           },
           onError: (error) {

@@ -31,7 +31,7 @@ class ProfileItemWidget extends StatelessWidget {
               style: TextStyle(
                   color: icon! == Icons.logout ? Colors.red : Colors.black,
                   fontWeight: FontWeight.w400,
-                  fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 4.sp : 12.sp),
+                  fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 4.sp : 16.sp),
             ),
             Spacer(),
             Icon(

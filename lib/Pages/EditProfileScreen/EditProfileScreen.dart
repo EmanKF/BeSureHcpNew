@@ -97,7 +97,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                        Image.asset("assets/images/esnadTakaful.png")
                       :Image.network(swaggerImagesUrl + "serviceproviderprofiles/" + BaseScreen.loggedInSP!.profile!,
                       errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
-                            return Icon(Icons.error);
+                            return Icon(Icons.person);
                           },),
                       borderRadius: BorderRadius.circular(300.0),
                     )
@@ -178,7 +178,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         borderRadius: BorderRadius.circular(15.0)),
                     child: isLoading == false ?
                     TextButton(
-                        onPressed: () async {                
+                        onPressed: () async {  
+                          setState(() {
+                            isLoading = true;
+                          });              
                           var map = new Map(); 
                           map['id'] = BaseScreen.loggedInSP!.id!;
                           map['address'] = address.text;
@@ -195,8 +198,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             map['phoneNumber2'] = phone.text;
                             map['phoneNumber'] = phone.text;
                             map['name_en'] = name.text;
-                            map['shortDescription'] = shortDescription.text;
-                            map['description'] = description.text;
+                            map['shortDescription'] = shortDescription.text.isNotEmpty ? shortDescription.text : 'short description';
+                            map['description'] = description.text.isNotEmpty ?  description.text : 'description';
                             map['updated_by'] = BaseScreen.loggedInSP!.serviceProviderId!;
                             map['cityId'] = 1;
                             res = await editServiceProviderInfo(map);
@@ -226,6 +229,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           else{
                             print('falseeeeeeeee');
                           }
+                          setState(() {
+                            isLoading = false;
+                          }); 
                         },
                         child: Text(AppLocalizations.of(context)!.save,
                             style: TextStyle(

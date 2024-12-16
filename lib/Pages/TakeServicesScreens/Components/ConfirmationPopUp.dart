@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/UploadBillScreen.dart';
 import 'package:besure_hcp/Services/PaymentServices.dart';
 import 'package:besure_hcp/configure_ws.dart';
@@ -58,7 +58,7 @@ class _ConfirmationPopUpState extends ConsumerState<ConfirmationPopUp> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              child: Text('Are you sure that ' + widget.name! +' payed all the amount?'),
+              child: Text(AppLocalizations.of(context)!.areYouSure),
             ),
             Row(
               children: [
@@ -71,12 +71,12 @@ class _ConfirmationPopUpState extends ConsumerState<ConfirmationPopUp> {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => UploadBillScreen(cardId: widget.cardId)));
                     }
                   }, 
-                  child: Text('Yes')),
+                  child: Text(AppLocalizations.of(context)!.yes)),
                 TextButton(
                   onPressed: (){
                     Navigator.pop(context);
                   }, 
-                  child: Text('No'))
+                  child: Text(AppLocalizations.of(context)!.no))
               ],
             )
           ],

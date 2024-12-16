@@ -20,7 +20,7 @@ Future<List<Appointment>> getAllAppointments() async{
     // "Authorization": "Bearer " + LoginScreen.token
     },
   );
-  log(getAllAppointmentsResponse.body);
+  // log(getAllAppointmentsResponse.body);
   Map getAllAppointmentsMapResponse = json.decode(getAllAppointmentsResponse.body);
   if(getAllAppointmentsMapResponse['httpStatusCode'] == 200){
     apps = Appointment.listFromJson(getAllAppointmentsMapResponse["data"]);

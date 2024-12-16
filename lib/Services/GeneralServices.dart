@@ -9,6 +9,7 @@ import 'package:besure_hcp/Pages/BaseScreen/BaseScreen.dart';
 import 'package:besure_hcp/Pages/HomeScreen/HomeSceen.dart';
 import 'package:besure_hcp/Pages/LoginScreen/LoginScreen.dart';
 import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
+import 'package:flutter_observer/Observable.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:html/parser.dart' show parse;
@@ -198,6 +199,9 @@ void getLoyaltyPoints(String id) async {
     int points = res["data"];
     log('itsssssss loyaltyy');
     HomeScreen.loyaltyPoints = points;
+    Observable.instance.notifyObservers([
+    "_HomeScreenState",
+    ], notifyName : "update");
   log(response.body);
   log(points.toString());
 }

@@ -10,6 +10,7 @@ import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/AfterPaymentScreen.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/Components/ConfirmationPopUp.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/Components/PayingDialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/UploadBillScreen.dart';
 import 'package:besure_hcp/Services/PaymentServices.dart';
 import 'package:besure_hcp/Services/TakeServices.dart';
@@ -200,7 +201,7 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                         map["id"] = widget.cardId;
                         map["clientId"] = widget.clientId;
                         map["orderNb"] = "string";
-                        map["amount"] = 1;
+                        map["amount"] = widget.amount;
                         map["discount"] = 0;
                         map["discount_Benifit_PNPL"] = 0;
                         map["commision"] = 0;
@@ -248,9 +249,9 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AfterPaymentScreen()));
                         // Navigator.push(context, MaterialPageRoute(builder: (context) => BaseScreen()));
                       }, 
-                      child: isLoadingCard == true ? LoadingAnimationWidget.horizontalRotatingDots(color: Colors.white, size: 40) : Text('Pay by BeSure', style: TextStyle(
+                      child: isLoadingCard == true ? LoadingAnimationWidget.horizontalRotatingDots(color: Colors.white, size: 40) : Text(AppLocalizations.of(context)!.payByBeSure, style: TextStyle(
                         color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp
                       ))
                     ),
                   ),
@@ -281,14 +282,14 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                       RichText(
                         text: TextSpan(
                           children: [
-                            TextSpan(text: 'Pay at ', style: TextStyle(
+                            TextSpan(text: AppLocalizations.of(context)!.payAtFrontdesk, style: TextStyle(
                               color: silverLakeBlue,
-                              fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 12.sp
+                              fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 17.sp
                             )),
-                            TextSpan(text: 'Frontdesk', style: TextStyle(
-                              color: silverLakeBlue,
-                              fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 14.sp
-                            )),
+                            // TextSpan(text: 'Frontdesk', style: TextStyle(
+                            //   color: silverLakeBlue,
+                            //   fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 14.sp
+                            // )),
                           ],
                         ),
                       )
@@ -352,9 +353,9 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
           "PaymentUrl": url
         };
             
-            log(message.toString());
+          log(message.toString());
           ref.read(websocketProvider).sendMessage(jsonEncode(message));
-          Navigator.push(context, MaterialPageRoute(builder: (context) => BaseScreen()));
+          showDialog(context: context, builder: (context) => PayingDialog(name: widget.name,));
     }
   }
 }

@@ -44,7 +44,7 @@ class _SPUserWidgetState extends State<SPUserWidget> {
                   child: widget.spUser!.profile! == '' || widget.spUser!.profile!.contains('/') ? 
                   Image.asset('assets/images/avatar.jpg', fit: BoxFit.cover,)
                   :
-                  Image.network(swaggerImagesUrl + "serviceproviderprofiles/"+widget.spUser!.profile!, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
+                  Image.network(swaggerImagesUrl + "serviceproviderprofiles/"+widget.spUser!.profile!, fit: BoxFit.cover, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
                             return Icon(Icons.person);
                           },),
                   borderRadius: BorderRadius.circular(300),
@@ -61,20 +61,20 @@ class _SPUserWidgetState extends State<SPUserWidget> {
                     Row(
                       children: [
                         Text(widget.spUser!.name!, textAlign: TextAlign.start, style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 4.sp : 12.sp, 
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 4.sp : 17.sp, 
                           fontWeight: FontWeight.w700)),
                       ],
                     ),
                     Row(
                       children: [
                         Text(widget.spUser!.email!, textAlign: TextAlign.start, style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 3.sp : 10.sp))
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 3.sp : 16.sp))
                       ],
                     ),
                     Row(
                       children: [
                         Text(widget.spUser!.mobileNb!, textAlign: TextAlign.start, style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 3.sp : 10.sp)),
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 3.sp : 15.sp)),
                       ],
                     )
                   ],

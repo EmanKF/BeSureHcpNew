@@ -65,14 +65,14 @@ class ChangeLang extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(lang!.name!, style: TextStyle(fontSize: MediaQuery.of(context).size.width > MediaQuery.of(context).size.height ? 6.sp : 12.sp)),
+                      Text(lang!.name!, style: TextStyle(fontSize: MediaQuery.of(context).size.width > MediaQuery.of(context).size.height ? 6.sp : 17.sp)),
                       SizedBox(
                         width:  1.w,
                       ),
                       lang.flag!.contains('.')
                       ?
                       Container(
-                        width: MediaQuery.of(context).size.width > MediaQuery.of(context).size.height ? 3.w : 5.w,
+                        width: 20,
                         child: Image.network(swaggerFlagsUrl + lang.flag!),
                       )
                       :

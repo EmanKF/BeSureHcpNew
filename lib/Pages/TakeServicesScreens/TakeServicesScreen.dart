@@ -146,6 +146,53 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
       ref.read(websocketProvider).sendMessage(jsonEncode(message));
   }
 
+  // void sendWebSocketMessageClientCard(List<ServiceModel> list) async{
+  //   var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+  //   log(onesignalId+' on send msg');
+  //   final prefs = await SharedPreferences.getInstance();
+  //       String id = prefs.getString('SPId') ?? '';
+  //       List<Map> mapList = List.empty(growable: true);
+  //       for(ServiceModel s in list){
+  //         // if(s.dis == null) s.dis = 0 ;
+  //         Map<String,dynamic> map = new Map();
+  //         num discountValue = (s.price! * s.dis!)/100;
+  //         num priceAfterDiscount = s.price! - discountValue;
+  //         map['Id'] = 0;
+  //         map['ServiceProviderServicesId'] = s.serviceProviderServicesId;
+  //         map['ClientCardId'] = 0;
+  //         map['Service'] = s.name;
+  //         map['ServiceImage'] = "string";
+  //         map['Amount'] = priceAfterDiscount;
+  //         map['Discount'] = discountValue;
+  //         map['Note'] = "Note";
+  //         map["ServiceDiscount"] = 0;
+  //         map["Is_Accepted"] = true;
+  //         mapList.add(map);
+  //       }
+        
+  //       final message = {
+  //         "Id":0,
+  //         "Action":"ClientCardRequest",
+  //         "Message":"PopupClientCard",
+  //         "ClientPoints":0,
+  //         "ClientName_en":widget.sObj!.name,
+  //         "SPName_en":"",
+  //         "ClientName":widget.sObj!.name,
+  //         "SPName":"",
+  //         "SPPoints":0,
+  //         "SP": id,
+  //         "SPDeviceId":onesignalId,
+  //         "BranchId" : widget.branchId,
+  //         "Client": widget.sObj!.clientId,
+  //         "Data":["String"],
+  //         "ClientCard": mapList
+  //           };
+  //           log(jsonEncode(message));
+  //           log(message.toString());
+  //     ref.read(websocketProvider).sendMessage(jsonEncode(message));
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     var rejectedServices = ref.read(servicesRejected);
@@ -172,7 +219,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                   Text(AppLocalizations.of(context)!.name +":", style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp
                   )),
                   SizedBox(
                     width: 1.w,
@@ -180,7 +227,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                   Text(widget.sObj!.name!, style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp
                   )),
                 ],
               ),
@@ -207,7 +254,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
                     fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp
                   )),
                 ],
               ),
@@ -303,6 +350,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                               selectedService!.dis = r;
                             });
                           }
+                          if(selectedService!.isEligible == true){
                           if(selectedService!.price == 0){
                             showDialog(context: context, builder: (context) => AddPriceDialog()).then((value) {
                               // print(value);
@@ -332,7 +380,11 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                         }
                         sendWebSocketMessage(addedServices);
                         }
+                          }
+                          else{
+                           showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.notEligibleService));
 
+                          }
 
                         
 
@@ -344,7 +396,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                       }, 
                       child: Text(AppLocalizations.of(context)!.add, style: TextStyle(
                         color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 14.sp
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
                       ))
                     ),
                   ),
@@ -465,6 +517,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                         map["services"] = mapList;
                         print(json.encode(map));
                         int clientCardId = await AddClientCard(map);
+                        // sendWebSocketMessageClientCard(addedServices);
                         setState(() {
                           isLoadingPay = false;
                         });
@@ -475,7 +528,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                       }, 
                       child: Text(AppLocalizations.of(context)!.pay, style: TextStyle(
                         color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 14.sp
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
                       ))
                     ),
                   ),

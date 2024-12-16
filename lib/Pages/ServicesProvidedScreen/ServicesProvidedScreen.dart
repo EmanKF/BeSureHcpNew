@@ -196,7 +196,7 @@ class _ServicesProvidedScreenState extends State<ServicesProvidedScreen> with Ob
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(AppLocalizations.of(context)!.addService, style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 12.sp,
+                fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 16.sp,
                 color: Colors.white
               ),),
               Icon(Icons.add, color: Colors.white)

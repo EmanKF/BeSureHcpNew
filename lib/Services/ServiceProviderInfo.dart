@@ -19,8 +19,8 @@ Future<void> getServiceProviderBasicInfo(String id) async {
       "Authorization": "Bearer " + LoginScreen.token
     },
   );
-  log(ServiceProviderInfoResponse.body);
-  print(ServiceProviderInfoResponse.body);
+  // log(ServiceProviderInfoResponse.body);
+  // print(ServiceProviderInfoResponse.body);
   Map ServiceProviderInfoMapResponse =
       json.decode(ServiceProviderInfoResponse.body);
       // print('basicc infoooooo');

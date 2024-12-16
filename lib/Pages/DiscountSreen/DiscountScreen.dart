@@ -5,6 +5,9 @@ import 'package:besure_hcp/Dialogs/MsgDialog.dart';
 import 'package:besure_hcp/Models/Branch.dart';
 import 'package:besure_hcp/Models/ChartData.dart';
 import 'package:besure_hcp/Models/ChartDataCategory.dart';
+import 'package:besure_hcp/Models/DateType.dart';
+import 'package:besure_hcp/Models/Month.dart';
+import 'package:besure_hcp/Models/ReportServiceDetail.dart';
 import 'package:besure_hcp/Models/ReportTransaction.dart';
 import 'package:besure_hcp/Models/ReportTransactionDetails.dart';
 import 'package:besure_hcp/Models/StatisticsData.dart';
@@ -36,9 +39,14 @@ class _DiscountScreenState extends State<DiscountScreen> {
   DateTime? fromDate, toDate;
   DateTime defaultDate = DateTime.now();
   bool isTime = false,isLoading = false, isSelected_fromDate = false, isSelected_toDate = false;
-  List<ChartData> chartDataByTime = [];
-  List<ChartDataCategory> chartDataByBranch = [];
-
+  List<ChartDataCategory> chartData = [];
+  List<StatisticsData> statsData = List<StatisticsData>.empty(growable: true);
+  List<ReportTransaction> reports = List<ReportTransaction>.empty(growable: true);
+  List<DateType> dateTypes =[];
+  List<Month> months = [];
+  int selectedDateTypeVal = 1;
+  int selectedMonthVal =1;
+  List<RevenueData> revDates = List<RevenueData>.empty(growable: true);
    
   @override
   void initState() {
@@ -72,8 +80,20 @@ class _DiscountScreenState extends State<DiscountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<StatisticsData> statsData = List<StatisticsData>.empty(growable: true);
-    List<ReportTransaction> reportss = List<ReportTransaction>.empty(growable: true);
+   months = [
+    Month(id: 1, name: AppLocalizations.of(context)!.jan),
+    Month(id: 2, name: AppLocalizations.of(context)!.feb),
+    Month(id: 3, name: AppLocalizations.of(context)!.mar),
+    Month(id: 4, name: AppLocalizations.of(context)!.apr),
+    Month(id: 5, name: AppLocalizations.of(context)!.may),
+    Month(id: 6, name: AppLocalizations.of(context)!.jun),
+    Month(id: 7, name: AppLocalizations.of(context)!.jul),
+    Month(id: 8, name: AppLocalizations.of(context)!.aug),
+    Month(id: 9, name: AppLocalizations.of(context)!.sep),
+    Month(id: 10, name: AppLocalizations.of(context)!.oct),
+    Month(id: 11, name: AppLocalizations.of(context)!.nov),
+    Month(id: 12, name: AppLocalizations.of(context)!.dec)];
+    dateTypes =[DateType(id: 1, name: AppLocalizations.of(context)!.byMonth), DateType(id: 2, name: AppLocalizations.of(context)!.byDate)];
 
     return Scaffold(
       appBar: AppBar(
@@ -95,16 +115,18 @@ class _DiscountScreenState extends State<DiscountScreen> {
               height: 5.h,
             ),
             
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
             if(bId == 0)
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 85.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
                        child: DropdownButtonFormField( 
                               items: BranchesScreen.approvedBranches.map((Branch value){
                                 return new DropdownMenuItem<String>(
                                   value: value.serviceProviderBranchesId.toString(),
                                   child: Container(
-                                    width: 160,
                                     child: Text(value.name!, style: TextStyle(fontSize: 12),)),
                                 );
                               }).toList(),
@@ -118,6 +140,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                                       if(b.serviceProviderBranchesId == int.parse(v.toString())){
                                         print(b.serviceProviderBranchesId.toString());
                                         setState(() {
+                                          groupedDataFinal.clear();
                                           selectedBranchId = b;
                                         }); 
                                       }
@@ -145,14 +168,13 @@ class _DiscountScreenState extends State<DiscountScreen> {
             if(bId != 0)
               Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 90.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
                        child: DropdownButtonFormField( 
                        
                               items: branchNotAdmin.map((Branch value){
                                 return new DropdownMenuItem<String>(
                                   value: value.serviceProviderBranchesId.toString(),
                                   child: Container(
-                                    width: 160,
                                     child: Text(value.name!, style: TextStyle(fontSize: 12),)),
                                 );
                               }).toList(),
@@ -181,6 +203,52 @@ class _DiscountScreenState extends State<DiscountScreen> {
                             ),                                                                                                                                                                                                                                                                                                
                      ),
 
+            Container(
+                    margin: EdgeInsets.symmetric(vertical: 1.h),
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
+                       child: DropdownButtonFormField( 
+                       
+                              items: dateTypes.map((DateType value){
+                                return new DropdownMenuItem<String>(
+                                  value: value.id.toString(),
+                                  child: Container(
+                                    child: Text(value.name!, style: TextStyle(fontSize: 12),)),
+                                );
+                              }).toList(),
+                              validator: (val){
+                                 if(val == null)
+                                 return 'Select Date Type';
+                                 else return null;
+                              },
+                              onChanged: (val){
+                                log(val!);
+                                setState((){
+                                  groupedDataFinal.clear();
+                                  selectedDateTypeVal = int.parse(val);
+                                });
+                              },
+
+                                hint: Text(dateTypes.first.name!, style:  TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: silverLakeBlue
+                                    )
+                                ),
+                                decoration: InputDecoration( 
+                                  prefixIcon: Icon(Icons.date_range_rounded, size:30),
+                                  border: OutlineInputBorder(
+
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: silverLakeBlue, width: 1),
+                                ),
+                               ),
+                            ),                                                                                                                                                                                                                                                                                                
+                     ),         
+              ]
+            ),         
+
+            if(selectedDateTypeVal == 2)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -225,7 +293,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('From Date',textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
+                                  Text(AppLocalizations.of(context)!.from,textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
                                   Text(
                                       fromDate != null ? fromDate.toString().split(' ').first.toString() : defaultDate.toString().split(' ').first.toString(),
                                       textScaleFactor: 1.0,
@@ -276,7 +344,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('To Date',textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
+                              Text(AppLocalizations.of(context)!.to,textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
                               Text(
                                   toDate != null ? toDate.toString().split(' ').first.toString() : defaultDate.toString().split(' ').first.toString(),
                                   textScaleFactor: 1.0,
@@ -291,8 +359,52 @@ class _DiscountScreenState extends State<DiscountScreen> {
               ],
             ),
 
+            if(selectedDateTypeVal == 1)
+            Container(
+                    margin: EdgeInsets.symmetric(vertical: 1.h),
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 93.w ,
+                       child: DropdownButtonFormField( 
+                       
+                              items: months.map((Month value){
+                                return new DropdownMenuItem<String>(
+                                  value: value.id.toString(),
+                                  child: Container(
+                                    width: 160,
+                                    child: Text(value.name!, style: TextStyle(fontSize: 12),)),
+                                );
+                              }).toList(),
+                              validator: (val){
+                                 if(val == null)
+                                 return 'Select Month';
+                                 else return null;
+                              },
+                              onChanged: (val){
+                                setState((){
+                                  groupedDataFinal.clear();
+                                  selectedMonthVal = int.parse(val!);
+                                });
+                              },
+
+                                hint: Text(months.first.name!, style:  TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: silverLakeBlue
+                                    )
+                                ),
+                                decoration: InputDecoration( 
+                                  prefixIcon: Icon(Icons.apartment_rounded, size:30),
+                                  border: OutlineInputBorder(
+
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: silverLakeBlue, width: 1),
+                                ),
+                               ),
+                            ),                                                                                                                                                                                                                                                                                                
+                     ),
+
             SizedBox(
-              height: 2.h,
+              height: 1.h,
             ),
 
             isLoading == true ?
@@ -304,13 +416,42 @@ class _DiscountScreenState extends State<DiscountScreen> {
                       :
 
             Container(
-             width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 85.w ,
+             width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 93.w ,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
                 color: silverLakeBlue
               ),
               child: TextButton(
                 onPressed: () async{
+                  if(selectedDateTypeVal == 1){
+                     setState(() {
+                          isLoading = true;
+                        });
+                        chartData = [];
+                        Map map = new Map();
+                        int year = DateTime.now().year;
+                        DateTime firstDayOfMonth = DateTime(year, selectedMonthVal, 1);
+                        DateTime lastDayOfMonth = DateTime(year, selectedMonthVal + 1, 0);
+                        map['from'] = firstDayOfMonth.toIso8601String();
+                        map['to'] = lastDayOfMonth.toIso8601String();
+                        map['userId'] = BaseScreen.loggedInSP!.serviceProvideId!;
+                        map['branchId'] = selectedBranchId.serviceProviderBranchesId;
+                        map['type'] = 1;
+                        map['is_Time'] = false;
+                        map['is_SP'] = LoginScreen.isAdmin == "true" || LoginScreen.isAdmin == "True" ? true : false;
+                        
+                        log(json.encode(map));
+                        reports = await getSPReportNew(map);
+                        setState(() {
+                          revDates = groupTransactionsByDate(reports);
+                          revDates = mergeObjectsByDate(revDates);
+                        });
+
+                          setState(() {
+                            isLoading = false;
+                          });
+                  }
+                  else{
                   if(fromDate == null || toDate == null){
                     showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.allFieldsAreRequired));
                   }
@@ -319,7 +460,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                         isLoading = true;
                       });
                     Map map = new Map();
-                      chartDataByBranch = [];
+                      chartData = [];
                       map['from'] = fromDate!.toIso8601String();
                       map['to'] = toDate!.toIso8601String();
                       map['userId'] = BaseScreen.loggedInSP!.serviceProvideId!;
@@ -329,53 +470,16 @@ class _DiscountScreenState extends State<DiscountScreen> {
                       map['is_SP'] = LoginScreen.isAdmin == "true" || LoginScreen.isAdmin == "True" ? true : false;
 
                       log(json.encode(map));
-                          List<ReportTransaction> reports = await getSPReportNew(map);
+                          reports = await getSPReportNew(map);
+                        setState(() {
+                          revDates = groupTransactionsByDate(reports);
+                          revDates = mergeObjectsByDate(revDates);
+                        });
+
                           setState(() {
-                            reportss = reports;
+                            isLoading = false;
                           });
-                          ///////////////////////////////////
-                          Map<String, List<ReportTransactionDetails>> groupedData = {};
-                          if(reports.isNotEmpty)
-                          for (var data in reports.first.tranactionDetail!) {
-                            var d = DateTime.parse(data.date!);
-                            String formattedDate = "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}";
-                            
-                            if (groupedData.containsKey(formattedDate)) {
-                              groupedData[formattedDate]!.add(data);
-                            } else {
-                              groupedData[formattedDate] = [data];
-                            }
-                            setState(() {
-                              groupedDataFinal = groupedData;
-                            });
-                          }
-
-                          groupedData.forEach((date, dataList) {
-                            print("Date: $date");
-                            for (var data in dataList) {
-                              print("  - ${data.employeeName}: ${dataList.length}");
-                            }
-                          });
-                          //////////////////////////////////
-                          
-                       
-
-
-                          ////////////////////////////////
-                        
-                          String month = '';
-                          if(reports.isNotEmpty)
-                          for(ReportTransactionDetails r in reports.first.tranactionDetail!){
-                            print(reports.first.tranactionCount.toString());
-                            month = getMonthName(DateTime.parse(r.date.toString()).month);
-                            statsData.add(StatisticsData(month,reports.length));
-                          
-                            // ChartDataCategory c = ChartDataCategory(report.branchName!.toString(),report.tranactionCount!);
-                            // chartData.add(c);
-                          }
-                      setState(() {
-                        isLoading = false;
-                      });
+                  }
                   }
                 }, 
                 child: Text(AppLocalizations.of(context)!.getDiscounts, style: TextStyle(color: Colors.white),))
@@ -399,14 +503,11 @@ class _DiscountScreenState extends State<DiscountScreen> {
               height: 5.h,
             ),
 
-             if(groupedDataFinal.isNotEmpty)
+             if(revDates.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: StatsBarChart(groupedData: groupedDataFinal),
+                child: RevenueChartPage(rev: revDates)
               ),
-              if(reportss.isNotEmpty)
-              for(ReportTransactionDetails r in reportss.first.tranactionDetail!)
-              Text('ll')
         
                  
           ],
@@ -416,85 +517,125 @@ class _DiscountScreenState extends State<DiscountScreen> {
   }
 }
 
-class StatsBarChart extends StatelessWidget {
-  final Map<String, List<ReportTransactionDetails>> groupedData;
 
-  StatsBarChart({required this.groupedData});
+class RevenueData {
+  final DateTime date;
+  final double revenue;
 
-  List<BarChartGroupData> createBarChartData(Map<String, List<ReportTransactionDetails>> groupedData) {
-            List<BarChartGroupData> barGroups = [];
-            int xIndex = 0;
+  RevenueData(this.date, this.revenue);
+}
 
-            groupedData.forEach((date, transactions) {
-              int transactionCount = transactions.length;
+List<RevenueData> groupTransactionsByDate(List<ReportTransaction> transactions) {
+  // Create a map to hold total revenue for each date
+  Map<String, double> groupedRevenue = {};
 
-              barGroups.add(
-                BarChartGroupData(
-                  x: xIndex,
-                  barRods: [
-                    BarChartRodData(
-                      toY: transactionCount.toDouble(), // Number of transactions for the date
-                      color: silverLakeBlue,
-                      width: 25,
-                    ),
-                  ],
-                  // showingTooltipIndicators: [0],
-                ),
-              );
-              xIndex++;
-            });
+  for (var transaction in transactions) {
+    if (transaction.tranactionDetail != null) {
+      for (var detail in transaction.tranactionDetail!) {
+        String? date = detail.date;
 
-            return barGroups;
+        // Sum the revenue for all services under this detail
+        double totalRevenueForDetail = detail.servicesDetail?.fold(0.0, (sum, service) {
+              return sum! + (service.amount ?? 0.0);
+            }) ?? 0.0;
+
+        if (date != null) {
+          // Add or update the total revenue for the specific date
+          groupedRevenue.update(
+            date,
+            (existingRevenue) => existingRevenue + totalRevenueForDetail,
+            ifAbsent: () => totalRevenueForDetail,
+          );
+        }
+      }
+    }
   }
 
+  // Convert the map to a list of RevenueData objects
+  List<RevenueData> revenueDataList = groupedRevenue.entries.map((entry) {
+    return RevenueData(DateTime.parse(entry.key), entry.value);
+  }).toList();
+
+  // Sort the list by date
+  revenueDataList.sort((a, b) => a.date.compareTo(b.date));
+
+  return revenueDataList;
+}
+
+
+
+class RevenueChartPage extends StatelessWidget {
+  RevenueChartPage({super.key, this.rev});
+
+  List<RevenueData>? rev;
   @override
   Widget build(BuildContext context) {
+    // Sample data
+    log(rev.toString());
     return Container(
-      width: 90.w,
-      height: 200,
-      child: BarChart(
-        BarChartData(
-          barGroups: createBarChartData(groupedData),
-          titlesData: FlTitlesData(
-            leftTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, interval: 1),
-            ),
-            rightTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-            topTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                getTitlesWidget: (double value, TitleMeta meta) {
-                  // Show date labels
-                  String dateLabel = groupedData.keys.elementAt(value.toInt());
-                  return SideTitleWidget(
-                    axisSide: meta.axisSide,
-                    child: Text(dateLabel, style: TextStyle(fontSize: 10)),
-                  );
-                },
-              ),
+        child: SfCartesianChart(
+          primaryXAxis: DateTimeAxis(
+            dateFormat: DateFormat('dd MMM'),  // Format the X-axis date
+            title: AxisTitle(text: 'Date'),
+          ),
+          primaryYAxis: NumericAxis(
+            // title: AxisTitle(text: 'Revenue'),
+            numberFormat: NumberFormat.currency(
+              locale: 'en_SA',
+              symbol: 'SAR '
             ),
           ),
-          borderData: FlBorderData(show: false),
-          // barTouchData: BarTouchData(
-          //   touchTooltipData: BarTouchTooltipData(
-              
-          //     getTooltipItem: (group, groupIndex, rod, rodIndex) {
-          //       String date = groupedData.keys.elementAt(groupIndex);
-          //       return BarTooltipItem(
-          //         '$date\n',
-          //         TextStyle(color: Colors.white),
-          //         children: [TextSpan(text: 'Value: ${rod.toY}')],
-          //       );
-          //     },
-          //   ),
-          // ),
+          series: <CartesianSeries>[
+            ColumnSeries<RevenueData, DateTime>(
+              dataSource: rev,
+              xValueMapper: (RevenueData data, _) => data.date,
+              yValueMapper: (RevenueData data, _) => data.revenue,
+              color: silverLakeBlue,
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ],
         ),
+    );
+  }
+}
+
+List<BarChartGroupData> createBarChartData(List<RevenueData> revenueDataList) {
+  List<BarChartGroupData> barGroups = [];
+  for (int i = 0; i <= revenueDataList.length; i++) {
+    barGroups.add(
+      BarChartGroupData(
+        x: i,
+        barRods: [
+          BarChartRodData(
+            toY: revenueDataList[i].revenue,
+            color: Colors.blue,
+            width: 25,
+          ),
+        ],
       ),
     );
   }
+  return barGroups;
+}
+
+
+List<RevenueData> mergeObjectsByDate(List<RevenueData> objects) {
+  // Create a map to group by date and sum amounts
+  Map<DateTime, double> groupedMap = {};
+
+  for (var obj in objects) {
+    // Use only the date part to group by date (ignoring time)
+    DateTime dateOnly = DateTime(obj.date.year, obj.date.month, obj.date.day);
+
+    groupedMap.update(
+      dateOnly,
+      (existingAmount) => existingAmount + obj.revenue,
+      ifAbsent: () => obj.revenue,
+    );
+  }
+
+  // Convert the map back to a list of Object
+  return groupedMap.entries.map((entry) {
+    return RevenueData(entry.key, entry.value);
+  }).toList();
 }

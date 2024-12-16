@@ -88,7 +88,7 @@ Future<void> approveReconcilation(int id, bool IS_Approved, String transfer) asy
       // "Authorization": "Bearer " + LoginScreen.token
     },
   );
-  log(approveReconcilationResponse.body);
+  // log(approveReconcilationResponse.body);
   // print(getCitiesResponse.body);
   // Map approveReconcilationMapResponse = json.decode(approveReconcilationResponse.body);
   // if(payCashResponseMapResponse['httpStatusCode'] == 200){

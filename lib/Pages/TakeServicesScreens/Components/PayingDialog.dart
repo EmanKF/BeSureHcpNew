@@ -1,6 +1,7 @@
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Pages/BaseScreen/BaseScreen.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/AfterPaymentScreen.dart';
+import 'package:besure_hcp/Pages/TakeServicesScreens/Components/PaymentFailedDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_observer/Observable.dart';
 import 'package:flutter_observer/Observer.dart';
@@ -70,7 +71,13 @@ class _PayingDialogState extends State<PayingDialog> with Observer {
 
   @override
   update(Observable observable, String? notifyName, Map? map) {
-    Navigator.pop(context);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AfterPaymentScreen()));
+    if(map!['action'] == 'PaymentSuccess'){
+      Navigator.pop(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AfterPaymentScreen()));
+    }
+    else if(map['action'] == 'PaymentFailed'){
+      Navigator.pop(context);
+      showDialog(context: context, builder: (context) => PaymentFailedDialog());
+    }
   }
 }

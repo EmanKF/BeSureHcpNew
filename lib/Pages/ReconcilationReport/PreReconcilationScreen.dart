@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Models/ReconcilationObject.dart';
 import 'package:besure_hcp/Pages/ReconcilationReport/Components/SingleReconcilationRecord.dart';
@@ -16,6 +17,7 @@ class PreReconcilationScreen extends StatefulWidget {
 
 class _PreReconcilationScreenState extends State<PreReconcilationScreen> with Observer {
   List<ReconcilationObject> reconcilationList = List.empty(growable: true);
+  bool isLoading = false;
   
   @override
   void initState() {
@@ -33,9 +35,13 @@ class _PreReconcilationScreenState extends State<PreReconcilationScreen> with Ob
   }
 
   void loadApi() async{
+    setState(() {
+      isLoading = true;
+    });
     List<ReconcilationObject> rec = await GetAllReconcilation();
     setState(() {
       reconcilationList = rec;
+      isLoading = false;
     }); 
  }
 
@@ -43,9 +49,9 @@ class _PreReconcilationScreenState extends State<PreReconcilationScreen> with Ob
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reconcilations', style: TextStyle(fontWeight: FontWeight.w300, color: Colors.grey.shade600)),
+        title: Text(AppLocalizations.of(context)!.reconcilationReport, style: TextStyle(fontWeight: FontWeight.w300, color: Colors.grey.shade600)),
       ),
-      body: reconcilationList.isEmpty?
+      body: isLoading == true?
       Container(
         height: 100.h,
         child: Column(
@@ -66,13 +72,13 @@ class _PreReconcilationScreenState extends State<PreReconcilationScreen> with Ob
             children: [
               SizedBox(width: 10), 
               Icon(Icons.square, color: Colors.blue.shade300,),
-              Text('Pending'),
+              Text(AppLocalizations.of(context)!.pending),
               SizedBox(width: 20),
               Icon(Icons.square, color: Colors.green.shade300,),
-              Text('Completed'),
+              Text(AppLocalizations.of(context)!.completed),
               SizedBox(width: 20),
               Icon(Icons.square, color: Colors.red.shade300,),
-              Text('Rejected'),
+              Text(AppLocalizations.of(context)!.rejected),
             ],
           ),
           for(ReconcilationObject r in reconcilationList)

@@ -11,7 +11,6 @@ import 'package:besure_hcp/Constants/constantUrls.dart';
 import 'package:besure_hcp/Dialogs/MsgDialog.dart';
 import 'package:besure_hcp/Functions/parseTokenFunction.dart';
 import 'package:besure_hcp/Services/CustomerReviewsServices.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -275,7 +274,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                              "SP":LoginScreen.SPSAID,
                              "Client":"",
                              "Message":"string",
-                             "DeviceId":"f0f5a8b4-24c4-51e3-a239-5f4b9eaff326",
+                             "DeviceId":onesignalId,
                              "Data":["Test Test","Test Test 22"]};
                               ref.read(websocketProvider).sendMessage(json.encode(message));
 

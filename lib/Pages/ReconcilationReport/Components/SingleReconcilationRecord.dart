@@ -1,5 +1,7 @@
 import 'package:besure_hcp/Models/DisplayReconcilation.dart';
 import 'package:besure_hcp/Models/ReconcilationObject.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Pages/ReconcilationReport/ReconcilationMainScreen.dart';
 import 'package:besure_hcp/Services/ReconcilationReportsServices.dart';
 import 'package:flutter/material.dart';
@@ -37,28 +39,37 @@ class _SingleReconcilationReportState extends State<SingleReconcilationReport> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                text: TextSpan(
+              Row(
                 children: [
-                  TextSpan(text: 'From: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                  TextSpan(text: formatDate(widget.reconcilation!.reconcilationFrom!), style: TextStyle(color: Colors.white)),
-                  TextSpan(text: '   To: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                  TextSpan(text: formatDate(widget.reconcilation!.reconcilationTo!), style: TextStyle(color: Colors.white))
+                  Text(AppLocalizations.of(context)!.from +': ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  Text(formatDate(widget.reconcilation!.reconcilationFrom!), style: TextStyle(color: Colors.white)),
+                  SizedBox(width: 15),
+                  Text(AppLocalizations.of(context)!.to+' : ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  Text(formatDate(widget.reconcilation!.reconcilationTo!), style: TextStyle(color: Colors.white))
                 ],
-              )
-            ),
+              ),
+            //   RichText(
+            //     text: TextSpan(
+            //     children: [
+            //       TextSpan(text: AppLocalizations.of(context)!.from +': ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            //       TextSpan(text: formatDate(widget.reconcilation!.reconcilationFrom!), style: TextStyle(color: Colors.white)),
+            //       TextSpan(text: AppLocalizations.of(context)!.to+' To: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            //       TextSpan(text: formatDate(widget.reconcilation!.reconcilationTo!), style: TextStyle(color: Colors.white))
+            //     ],
+            //   )
+            // ),
 
             SizedBox(
               height: 5,
             ),
 
-            RichText(text: TextSpan(
+            Row(
               children: [
-                TextSpan(text: 'Setteled Amount: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                TextSpan(text: widget.reconcilation!.spSetteledAmount!.toString()),
-                TextSpan(text: ' SAR')
+                Text(AppLocalizations.of(context)!.setteledAmount + " :", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                Text(widget.reconcilation!.spSetteledAmount!.toString()+' ', style: TextStyle(color: Colors.white)),
+                Text(AppLocalizations.of(context)!.sar, style: TextStyle(color: Colors.white))
               ]
-            ))
+            )
 
             ],
           ),
@@ -85,7 +96,7 @@ class _SingleReconcilationReportState extends State<SingleReconcilationReport> {
               child: isDone == false ? 
               LoadingAnimationWidget.horizontalRotatingDots(color: widget.reconcilation!.is_Canceled == true ? Colors.red.shade300 : widget.reconcilation!.is_Pending == true && widget.reconcilation!.is_Canceled == false ? Colors.blue.shade300 : Colors.green.shade300, size: 25) 
               : 
-              Text('View',style: TextStyle(color: widget.reconcilation!.is_Canceled == true ? Colors.red.shade300 : widget.reconcilation!.is_Pending == true && widget.reconcilation!.is_Canceled == false ? Colors.blue.shade300 : Colors.green.shade300),)),
+              Text(AppLocalizations.of(context)!.view,style: TextStyle(color: widget.reconcilation!.is_Canceled == true ? Colors.red.shade300 : widget.reconcilation!.is_Pending == true && widget.reconcilation!.is_Canceled == false ? Colors.blue.shade300 : Colors.green.shade300),)),
           ),
 
 

@@ -5,6 +5,7 @@ import 'package:flutter_observer/Observable.dart';
 import 'package:http/http.dart' as http;
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Constants/constantUrls.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Dialogs/MsgDialog.dart';
 import 'package:besure_hcp/Models/ClientReport.dart';
 import 'package:besure_hcp/Models/DisplayReconcilation.dart';
@@ -60,7 +61,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reconcilation Report'),
+        title: Text(AppLocalizations.of(context)!.reconcilationReport),
         backgroundColor: silverLakeBlue,
         foregroundColor: Colors.white,
       ),
@@ -108,7 +109,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
               ),
       
               Container(
-                child: Text('Balance', style: TextStyle(color: Colors.white, fontSize: 18),),
+                child: Text(AppLocalizations.of(context)!.balance, style: TextStyle(color: Colors.white, fontSize: 18),),
               ),
               Container(
                 margin: EdgeInsets.all(1),
@@ -116,7 +117,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                   text: TextSpan(
                     children: [
                       TextSpan(text: (widget.reconcilation!.transactionTotalCenterCash! + widget.reconcilation!.transactionBesurePayment!).toString(), style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-                      TextSpan(text: ' SAR', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold))
+                      TextSpan(text: ' '+AppLocalizations.of(context)!.sar, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold))
                     ]
                   ))
               ),
@@ -138,10 +139,10 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                             ),
                             child: GestureDetector(
                               onTap: (){
-                                showDialog(context: context, builder: ((context) => Popup(title: 'Total Transactions',totalSentence: 'Total Transactions: ' + totalTrans.toString() + ' SAR', hcpSentence: 'Center Cash: ' + widget.reconcilation!.transactionTotalCenterCash.toString() + ' SAR', besureSentence: 'BeSure Payments: ' + widget.reconcilation!.transactionBesurePayment.toString() + ' SAR',)));
+                                showDialog(context: context, builder: ((context) => Popup(title: AppLocalizations.of(context)!.totalTransactions,totalSentence: AppLocalizations.of(context)!.totalTransactions+': ' + totalTrans.toString() + ' '+AppLocalizations.of(context)!.sar, hcpSentence: AppLocalizations.of(context)!.centerCash+': ' + widget.reconcilation!.transactionTotalCenterCash.toString() + ' '+AppLocalizations.of(context)!.sar, besureSentence: AppLocalizations.of(context)!.beSurePayments+': ' + widget.reconcilation!.transactionBesurePayment.toString() + ' '+AppLocalizations.of(context)!.sar,)));
                               },
                               child: Icon(Icons.compare_arrows_outlined, color: Colors.white))),
-                          Text('Transactions', style: TextStyle(color: Colors.white),)
+                          Text(AppLocalizations.of(context)!.transactions, style: TextStyle(color: Colors.white),)
                         ],
                       ),
                     ),
@@ -158,10 +159,10 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                             ),
                             child: GestureDetector(
                               onTap: (){
-                                showDialog(context: context, builder: ((context) => Popup(title: 'Total Commission Detuctions',totalSentence: 'Total Commission Detuctions: (' + BaseScreen.commission.toString() + '%)', hcpSentence: 'In Center Amount: ' + widget.reconcilation!.centerCashCommission.toString() + ' SAR', besureSentence: 'with BeSure Account ' + widget.reconcilation!.besureAmazonComission.toString() + ' SAR',)));
+                                showDialog(context: context, builder: ((context) => Popup(title: AppLocalizations.of(context)!.totalCommissionDetuctions,totalSentence: AppLocalizations.of(context)!.totalCommissionDetuctions+': (' + BaseScreen.commission.toString() + '%)', hcpSentence: AppLocalizations.of(context)!.inCenterAmount+': ' + widget.reconcilation!.centerCashCommission.toString() + ' '+AppLocalizations.of(context)!.sar, besureSentence: AppLocalizations.of(context)!.withBeSureAccount+': ' + widget.reconcilation!.besureAmazonComission.toString() + ' '+AppLocalizations.of(context)!.sar,)));
                               },
                               child: Icon(Icons.percent_rounded, color: Colors.white))),
-                          Text('Commissions',style: TextStyle(color: Colors.white),)
+                          Text(AppLocalizations.of(context)!.commisions,style: TextStyle(color: Colors.white),)
                         ],
                       ),
                     ),
@@ -178,10 +179,10 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                             ),
                             child: GestureDetector(
                               onTap: (){
-                                showDialog(context: context, builder: ((context) => Popup(title: 'Transfers/Settlement',totalSentence: 'Money Transfers:', hcpSentence: 'From HCP to BeSure: ' + widget.reconcilation!.transferFromHCPToBeSure.toString() + ' SAR', besureSentence: 'From BeSure to HCP: ' + widget.reconcilation!.transferFromBeSureToHCP.toString() + ' SAR',)));
+                                showDialog(context: context, builder: ((context) => Popup(title: AppLocalizations.of(context)!.transfersSettlment,totalSentence: AppLocalizations.of(context)!.transfers+':', hcpSentence: AppLocalizations.of(context)!.fromHcpToBeSure+': ' + widget.reconcilation!.transferFromHCPToBeSure.toString() + ' '+AppLocalizations.of(context)!.sar, besureSentence: AppLocalizations.of(context)!.fromBeSuretoHCP+': ' + widget.reconcilation!.transferFromBeSureToHCP.toString() + ' '+AppLocalizations.of(context)!.sar,)));
                               },
                               child: Icon(Icons.account_balance_wallet, color: Colors.white))),
-                          Text('Transfers', style: TextStyle(color: Colors.white),)
+                          Text(AppLocalizations.of(context)!.transfers, style: TextStyle(color: Colors.white),)
                         ],
                       ),
                     )
@@ -201,7 +202,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                     SizedBox(
                       height: 50,
                     ),
-                    Text('Reconcilation Report')
+                    Text(AppLocalizations.of(context)!.reconcilationReport)
                   ]),
               ),
             
@@ -264,7 +265,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         
-                                        Text('From Date',textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
+                                        Text(AppLocalizations.of(context)!.from,textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
                                           
                                         
                                         Text(
@@ -318,7 +319,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('To Date',textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
+                                    Text(AppLocalizations.of(context)!.to,textAlign: TextAlign.start, style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.w100, fontSize: 10),),
                                     Text(
                                         formatDate(widget.to!),
                                         textScaleFactor: 1.0,
@@ -366,7 +367,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                           size: 30
                         ) 
                         : 
-                        Text(approved == true? 'Approved' : 'Approve', style: TextStyle(color: Colors.white),))
+                        Text(approved == true? AppLocalizations.of(context)!.approved : AppLocalizations.of(context)!.approve, style: TextStyle(color: Colors.white),))
                         ),
 
                         Container(
@@ -381,7 +382,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                           showDialog(context: context, builder: ((context) => DisapprovePopUp(id: widget.id!,)));
                         }, 
                         child: 
-                        Text(widget.is_disapproved == true? 'Disapproved' : 'Disapprove', style: TextStyle(color: Colors.white),))
+                        Text(widget.is_disapproved == true? AppLocalizations.of(context)!.disapproved : AppLocalizations.of(context)!.disapprove, style: TextStyle(color: Colors.white),))
                         ),
 
                 ],
@@ -423,7 +424,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                           ),
                         )
                         : 
-                        Text('Preview PDF', style: TextStyle(color: Colors.white),))
+                        Text(AppLocalizations.of(context)!.previewPdf, style: TextStyle(color: Colors.white),))
                         ),
                       
                       if(widget.reconcilation!.reportList != null)

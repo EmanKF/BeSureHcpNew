@@ -1,8 +1,11 @@
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Models/Appointment.dart';
 import 'package:besure_hcp/Pages/AppointmentsScreen/Components/SingleAppointment.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Services/AppointmentServices.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_observer/Observable.dart';
+import 'package:flutter_observer/Observer.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
@@ -13,7 +16,7 @@ class AppointmentsScreen extends StatefulWidget {
   State<AppointmentsScreen> createState() => _AppointmentsScreenState();
 }
 
-class _AppointmentsScreenState extends State<AppointmentsScreen> {
+class _AppointmentsScreenState extends State<AppointmentsScreen> with Observer {
   List<Appointment> appointments = List.empty(growable: true);
 
   String formatDate(String date){
@@ -23,9 +26,15 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
   
   @override
   void initState() {
-    // TODO: implement initState
+    Observable.instance.addObserver(this);
     super.initState();
     loadApis();
+  }
+
+  @override
+  void dispose() {
+    Observable.instance.removeObserver(this);
+    super.dispose();
   }
 
   void loadApis() async{
@@ -41,7 +50,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Appointments'),
+        title: Text(AppLocalizations.of(context)!.appointments),
       ),
       body: SingleChildScrollView(
         child: appointments.isEmpty ?
@@ -67,5 +76,13 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  update(Observable observable, String? notifyName, Map? map) {
+    loadApis();
+    setState(() {
+      
+    });
   }
 }

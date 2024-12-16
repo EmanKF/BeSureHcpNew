@@ -154,7 +154,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             setState(() {
                               isLoading = false;
                             });
-                            // print(registerResponse.body);
+                            print(registerResponse.body);
                             
                             Map loginMapResonse = json.decode(registerResponse.body);
                             if(loginMapResonse["httpStatusCode"] == 200){

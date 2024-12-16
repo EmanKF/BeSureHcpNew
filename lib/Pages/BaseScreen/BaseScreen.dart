@@ -16,7 +16,6 @@ import 'package:besure_hcp/Pages/ProfileScreen/ProfileScreen.dart';
 import 'package:besure_hcp/Pages/QrCodeScreen/QrCodeScreen.dart';
 import 'package:besure_hcp/Pages/StatisticsScreen/StatisticsScreen.dart';
 import 'package:besure_hcp/Services/GeneralServices.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';

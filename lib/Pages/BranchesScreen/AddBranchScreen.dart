@@ -113,8 +113,8 @@ class _AddBranchScreenState extends State<AddBranchScreen> {
                         child: branchImage != null ? Image.file(
                           branchImage!,
                           fit: BoxFit.fill,
-                          width: MediaQuery.of(context).size.width,
-                          height: 60.h,
+                          width: 150,
+                          height: 150,
                         )
                         :
                         Image.asset("assets/images/noImageIcon.jpg"),
