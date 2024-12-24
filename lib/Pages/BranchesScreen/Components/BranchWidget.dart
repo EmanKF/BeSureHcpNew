@@ -95,7 +95,7 @@ class _BranchWidgetState extends State<BranchWidget> {
                         // textAlign: TextAlign.left,
                         // textAlign: SplashScreen.langId == 1? TextAlign.end : TextAlign.start, 
                         style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 4.sp : 16.sp, 
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 12.sp : 16.sp, 
                           fontWeight: FontWeight.w700)),
                       ),
                     ],
@@ -108,7 +108,7 @@ class _BranchWidgetState extends State<BranchWidget> {
                   Row(
                     children: [
                       Text(widget.branch!.mobile!, textAlign: TextAlign.start, style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 3.sp : 16.sp)),
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 11.sp : 16.sp)),
                     ],
                   )
                 ],
@@ -137,7 +137,7 @@ class _BranchWidgetState extends State<BranchWidget> {
                           }
                     },
                     child: Text(AppLocalizations.of(context)!.viewOnMap, style: TextStyle(color: Colors.white, 
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 3.sp : 14.sp)),
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 11.sp : 14.sp)),
                   )
                 ),
                 SizedBox(

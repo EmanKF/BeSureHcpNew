@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:besure_hcp/Constants/constantFontFamily.dart';
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
 import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
 import 'package:besure_hcp/configure_ws.dart';
 import 'package:flutter/foundation.dart';
@@ -30,6 +31,10 @@ void main() async{
       InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // if(kIsWeb){
+  //   OneSignalWeb.initialize();
+  // }
   
   runApp(
     ProviderScope(

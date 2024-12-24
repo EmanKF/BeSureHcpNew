@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
 import 'package:besure_hcp/Pages/RegistrationScreen/RegistrationScreen.dart';
 import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
 import 'package:besure_hcp/configure_ws.dart';
@@ -142,7 +143,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width > MediaQuery.of(context).size.height ? 40.w : 75.w,
+                      width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 75.w,
                       child: TabBar(
                         indicatorColor: silverLakeBlue,
                         indicatorSize: TabBarIndicatorSize.label,
@@ -204,23 +205,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                           setState(() {
                             isLoading = true;
                           });
-                          var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
-
-                          // print(deviceId.toString() + '  itss deviceeeeee');
-                          // print(PlayerId.toString() + '  itss playerrrr');
+                          var onesignalId = '';
                           if(!kIsWeb){
-                          // try
-                          // {
-                          //   OneSignal.User.setExternalUserId(PlayerId).then((results) {
-                          //   // log('Results : ' + results.toString());
-                          //   // print(PlayerId+' lllllllllllllllllllllllllllllllllllllllllllllllllljjjjjjjjjj');
-                          // }).catchError((error) {
-                          //   // log(error.toString());
-                          // });
-                          // }catch(e){
-                          //   // log(e.toString());
-                          // }
+                            onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
                           }
+                          else if(kIsWeb){
+                            onesignalId = await getOneSignalPlayerId();
+                          }
+
 
 
                           var map = new Map();
@@ -260,6 +252,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                             //  print('before getting info');
                             //  print(tokenMap["Id"]);
                              await getServiceProviderBasicInfo(tokenMap["Id"]);
+                             if(!kIsWeb)
                              OneSignal.login(onesignalId ?? '');
                             //  print('after getting info');
                                await prefs.setString('deviceId',onesignalId);

@@ -181,8 +181,8 @@ class _AddBranchScreenState extends State<AddBranchScreen> {
                   // }
                 },
                 child: Container(
-                  width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 15.w : 35.w,
-                  height: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 15.w : 35.w,
+                  width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 10.w : 35.w,
+                  height: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 10.w : 35.w,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.grey.shade400

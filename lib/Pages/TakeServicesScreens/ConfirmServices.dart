@@ -88,7 +88,7 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                 Text(AppLocalizations.of(context)!.name + ":", style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: silverLakeBlue,
-                  fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                  fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 13.sp : 16.sp
                 )),
                 SizedBox(
                   width: 2.w,
@@ -96,7 +96,7 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                 Text(widget.name!, style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: silverLakeBlue,
-                  fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                  fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 13.sp : 16.sp
                 )),
               ],
             ),
@@ -251,7 +251,7 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                       }, 
                       child: isLoadingCard == true ? LoadingAnimationWidget.horizontalRotatingDots(color: Colors.white, size: 40) : Text(AppLocalizations.of(context)!.payByBeSure, style: TextStyle(
                         color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 15.sp : 18.sp
                       ))
                     ),
                   ),
@@ -284,7 +284,7 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                           children: [
                             TextSpan(text: AppLocalizations.of(context)!.payAtFrontdesk, style: TextStyle(
                               color: silverLakeBlue,
-                              fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 17.sp
+                              fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 13.sp : 17.sp
                             )),
                             // TextSpan(text: 'Frontdesk', style: TextStyle(
                             //   color: silverLakeBlue,

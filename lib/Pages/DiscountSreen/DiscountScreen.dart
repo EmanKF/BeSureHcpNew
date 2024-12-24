@@ -116,12 +116,12 @@ class _DiscountScreenState extends State<DiscountScreen> {
             ),
             
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
               children: [
             if(bId == 0)
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 45.w ,
                        child: DropdownButtonFormField( 
                               items: BranchesScreen.approvedBranches.map((Branch value){
                                 return new DropdownMenuItem<String>(
@@ -168,7 +168,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
             if(bId != 0)
               Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 45.w ,
                        child: DropdownButtonFormField( 
                        
                               items: branchNotAdmin.map((Branch value){
@@ -202,10 +202,14 @@ class _DiscountScreenState extends State<DiscountScreen> {
                                ),
                             ),                                                                                                                                                                                                                                                                                                
                      ),
+            if(MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height)
+            SizedBox(
+              width: 1.w
+            ),
 
             Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 45.w ,
                        child: DropdownButtonFormField( 
                        
                               items: dateTypes.map((DateType value){
@@ -250,7 +254,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
 
             if(selectedDateTypeVal == 2)
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                         decoration: BoxDecoration(
@@ -259,7 +263,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                               color: Colors.grey.shade500 )
                           )
                         ),
-                        width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 28.w : 44.w ,
+                        width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 44.w ,
                         child: TextButton(
                         onPressed: () async{
                            final DateTime? picked = await showDatePicker(
@@ -304,6 +308,10 @@ class _DiscountScreenState extends State<DiscountScreen> {
                             ],
                           )),
                         ),
+              if(MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height)
+              SizedBox(
+                width: 1.w
+              ),
 
               Container(
                     decoration: BoxDecoration(
@@ -312,7 +320,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
                           color: Colors.grey.shade500 )
                       )
                     ),
-                    width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 28.w : 44.w ,
+                    width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 44.w ,
                     child: TextButton(
                     onPressed: () async{
                        final DateTime? picked = await showDatePicker(
@@ -362,7 +370,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
             if(selectedDateTypeVal == 1)
             Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 93.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 55.w : 93.w ,
                        child: DropdownButtonFormField( 
                        
                               items: months.map((Month value){
@@ -410,13 +418,13 @@ class _DiscountScreenState extends State<DiscountScreen> {
             isLoading == true ?
                 Lottie.asset(
                         'assets/animations/loadingStatisticsAnimation.json',
-                        width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 20.w : 60.w,
-                        height: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 20.w : 60.w,
+                        width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.w : 60.w,
+                        height: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.w : 60.w,
                       )
                       :
 
             Container(
-             width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 93.w ,
+             width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 55.w : 93.w ,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
                 color: silverLakeBlue

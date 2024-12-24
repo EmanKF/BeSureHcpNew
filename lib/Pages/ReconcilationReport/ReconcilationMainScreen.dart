@@ -337,10 +337,10 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
           
               
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                      width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 40.w ,
+                      width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 40.w ,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.0),
                         color: approved == true ? Colors.grey : silverLakeBlue
@@ -370,8 +370,13 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
                         Text(approved == true? AppLocalizations.of(context)!.approved : AppLocalizations.of(context)!.approve, style: TextStyle(color: Colors.white),))
                         ),
 
+                        if(MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height)
+                        SizedBox(
+                          width: 1.w,
+                        ),
+
                         Container(
-                      width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 40.w ,
+                      width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 40.w ,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.0),
                         color: widget.is_disapproved == true? Colors.grey : silverLakeBlue
@@ -393,7 +398,7 @@ class _ReconcilationMainScreenState extends State<ReconcilationMainScreen> {
               ),
                if(widget.fileName != null && widget.fileName != '')
                Container(
-                      width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 87.w ,
+                      width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 55.w : 87.w ,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.0),
                         color: silverLakeBlue

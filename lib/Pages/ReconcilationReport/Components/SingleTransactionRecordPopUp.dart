@@ -3,6 +3,8 @@ import 'package:besure_hcp/Models/ClientReport.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class SingleTransactionRecordPopUp extends StatelessWidget {
   SingleTransactionRecordPopUp({super.key, this.transaction});
@@ -21,13 +23,13 @@ class SingleTransactionRecordPopUp extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
-            Center(child: Text('Transaction Details', style: TextStyle(fontSize: 16),)),
+            Center(child: Text(AppLocalizations.of(context)!.transactionDetails, style: TextStyle(fontSize: 16),)),
             SizedBox(height: 30),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
               child: RichText(text: TextSpan(
                 children: [
-                  TextSpan(text: 'Name: ', style: TextStyle(color: silverLakeBlue)),
+                  TextSpan(text: AppLocalizations.of(context)!.name+': ', style: TextStyle(color: silverLakeBlue)),
                   TextSpan(text: transaction!.clientName!, style: TextStyle(color: Colors.black))
                 ] )),
             ),
@@ -35,7 +37,7 @@ class SingleTransactionRecordPopUp extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
                 child: RichText(text: TextSpan(
                 children: [
-                  TextSpan(text: 'Branch: ', style: TextStyle(color: silverLakeBlue)),
+                  TextSpan(text: AppLocalizations.of(context)!.branch+': ', style: TextStyle(color: silverLakeBlue)),
                   TextSpan(text: transaction!.serviceProviderBranchName!, style: TextStyle(color: Colors.black))
                 ] )),
               ),
@@ -43,8 +45,8 @@ class SingleTransactionRecordPopUp extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
                 child: RichText(text: TextSpan(
                 children: [
-                  TextSpan(text: 'Payment Method: ' , style: TextStyle(color: silverLakeBlue)),
-                  TextSpan(text: transaction!.is_Paid_By_Amazon! == true ? 'BeSure' : 'Cash', style: TextStyle(color: Colors.black))
+                  TextSpan(text: AppLocalizations.of(context)!.paymentMethod+': ' , style: TextStyle(color: silverLakeBlue)),
+                  TextSpan(text: transaction!.is_Paid_By_Amazon! == true ? AppLocalizations.of(context)!.besure : AppLocalizations.of(context)!.cash, style: TextStyle(color: Colors.black))
                 ] )),
               ),
               SizedBox(
@@ -74,7 +76,7 @@ class SingleTransactionRecordPopUp extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Text('Amount(SAR)'),
+                        Text(AppLocalizations.of(context)!.amountSar),
                         Text(transaction!.amount!.toString())
                       ]),
                   ),
@@ -95,7 +97,7 @@ class SingleTransactionRecordPopUp extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Text('Discount(%)'),
+                        Text(AppLocalizations.of(context)!.discountPercentage),
                         Text(transaction!.discount!.toString())
                       ]),
                   )
@@ -121,7 +123,7 @@ class SingleTransactionRecordPopUp extends StatelessWidget {
                     ), 
                     child: Column(
                       children: [
-                        Text('Center(SAR)'),
+                        Text(AppLocalizations.of(context)!.centerSar),
                         Text(transaction!.centerAmount!.toString())
                       ]),
                   ),
@@ -137,7 +139,7 @@ class SingleTransactionRecordPopUp extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Text('BeSure(SAR)'),
+                        Text(AppLocalizations.of(context)!.beSureSar),
                         Text((transaction!.amount! - transaction!.centerAmount!).toString())
                       ]),
                   )

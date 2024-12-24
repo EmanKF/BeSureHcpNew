@@ -181,7 +181,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         style:
                             TextStyle(
                               color: silverLakeBlue,
-                              fontSize:  MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp, 
+                              fontSize:  MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 18.sp, 
                               fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
                               fontWeight: FontWeight.w600),
                       ),
@@ -196,12 +196,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   children:[ 
 
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
                       children:[
                     if(bId == 0)
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 1.h),
-                           width:  MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w,
+                           width:  MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 45.w,
                            child: DropdownButtonFormField( 
                                   items: BranchesScreen.approvedBranches.map((Branch value){
                                     return DropdownMenuItem<String>(
@@ -250,7 +250,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   if(bId != 0)
                   Container(
                         margin: EdgeInsets.symmetric(vertical: 1.h),
-                           width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w,
+                           width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 45.w,
                            child: DropdownButtonFormField( 
                            
                                   items: branchNotAdmin.map((Branch value){
@@ -285,9 +285,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 ),                                                                                                                                                                                                                                                                                                
                          ),
 
+                     if(MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height)
+                     SizedBox(
+                      width: 1.w
+                     ),
+
                           Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 45.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 45.w ,
                        child: DropdownButtonFormField( 
                        
                               items: dateTypes.map((DateType value){
@@ -333,7 +338,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
                          Container(
                         // margin: EdgeInsets.symmetric(vertical: 1.h),
-                           width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 93.w,
+                           width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 55.w : 93.w,
                            child: DropdownButtonFormField( 
                            
                                   items: reportsList.map((Report value){
@@ -382,9 +387,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   if(selectedDateTypeVal == 2)       
 
                  Container(
-                  width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 90.w,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
                               decoration: BoxDecoration(
@@ -393,7 +397,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                     color: Colors.grey.shade500 )
                                 )
                               ),
-                              width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 19.w : 44.w,
+                              width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 44.w,
                               child: TextButton(
                               onPressed: () async{
                                  final DateTime? picked = await showDatePicker(
@@ -438,7 +442,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                   ],
                                 )),
                               ),
-                  
+                    SizedBox(
+                      width:1.w
+                    ),
                     Container(
                           decoration: BoxDecoration(
                             border: Border(
@@ -446,7 +452,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 color: Colors.grey.shade500 )
                             )
                           ),
-                          width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 19.w : 44.w,
+                          width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 27.w : 44.w,
                           child: TextButton(
                           onPressed: () async{
                              final DateTime? picked = await showDatePicker(
@@ -497,7 +503,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     if(selectedDateTypeVal == 1)
             Container(
                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 70.w : 93.w ,
+                       width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 55.w : 93.w ,
                        child: DropdownButtonFormField( 
                        
                               items: months.map((Month value){
@@ -549,12 +555,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 isLoading == true ?
                 Lottie.asset(
                         'assets/animations/loadingStatisticsAnimation.json',
-                        width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 20.w : 60.w,
-                        height: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 20.w : 60.w,
+                        width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.w : 60.w,
+                        height: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.w : 60.w,
                       )
                       :
                 Container(
-                  width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 40.w : 93.w,
+                  width: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 55.w : 93.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
                     color: silverLakeBlue

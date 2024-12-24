@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> with Observer{
                 Text(
                   BaseScreen.loggedInSP!.ownerName!,
                   style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 7.sp : 18.sp,
+                      fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 18.sp,
                       color: silverLakeBlue,
                       fontWeight: FontWeight.w600),
                 ),
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> with Observer{
                           color: silverLakeBlue,
                           fontWeight: FontWeight.w500,
                           fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 17.sp),
                     ),
                   ],
                 ),
@@ -222,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> with Observer{
                           color: silverLakeBlue,
                           fontWeight: FontWeight.w500,
                           fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 17.sp),
                     ),
                   ],
                 ),

@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> with Observer{
                                           SplashScreen.langId! == 1 ? BaseScreen.loggedInSP!.serviceProvideName! : BaseScreen.loggedInSP!.serviceProvideName_en!,
                                           style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 16.sp
+                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 16.sp
                                         ),),
                                         // SizedBox(width:5),
                                         // InkWell(
@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> with Observer{
                                       children: [
                                         Text(BaseScreen.loggedInSP!.name!, style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 16.sp
+                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 16.sp
                                         ),),
                                         // if(LoginScreen.isAdmin == "true" || LoginScreen.isAdmin == "True")
                                         // Text(
@@ -215,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> with Observer{
                                         Text(
                                           ' ('+ AppLocalizations.of(context)!.employee+')', style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 16.sp
+                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 16.sp
                                         ),),
                                       ],
                                     ),
@@ -245,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> with Observer{
                                         Text(
                                           '('+AppLocalizations.of(context)!.admin+')', style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 5.sp : 15.sp
+                                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 15.sp : 15.sp
                                         ),),
                                    Container(
                                     width: 50.w,
@@ -327,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> with Observer{
                                 fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
-                                fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
+                                fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 17.sp),
                             )
                           ],
                         ),
@@ -374,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> with Observer{
                                         fontWeight: FontWeight.bold,
                                         fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
                                         color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
+                                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 17.sp),
                                     ),
                                   ],
                                 )
@@ -422,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> with Observer{
                                         fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
-                                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
+                                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 17.sp),
                                     ),
                                   ],
                                 )
@@ -529,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> with Observer{
                     Text(
                       AppLocalizations.of(context)!.services,
                       style:
-                          TextStyle(color: silverLakeBlue, fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 7.sp : 18.sp),
+                          TextStyle(color: silverLakeBlue, fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 18.sp),
                     ),
                   ],
                 ),

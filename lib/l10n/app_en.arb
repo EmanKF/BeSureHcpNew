@@ -236,7 +236,14 @@
     "oct" : "October",
     "nov" : "November",
     "dec" : "December",
-    "areYouSure" : "Are you sure that the client have payed all the amount?"
+    "areYouSure" : "Are you sure that the client have payed all the amount?",
+    "paymentMethod" : "Payment Method",
+    "amountSar" : "Amount(SAR)",
+    "discountPercentage" : "Discount(%)",
+    "beSureSar" : "BeSure(SAR)",
+    "centerSar" : "Center(SAR)",
+    "transactionDetails" : "Transaction Details",
+    "besure" : "BeSure"
     
 
 

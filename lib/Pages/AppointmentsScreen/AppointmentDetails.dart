@@ -137,7 +137,7 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                   Text(AppLocalizations.of(context)!.name +":", style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 13.sp : 16.sp
                   )),
                   SizedBox(
                     width: 1.w,
@@ -145,7 +145,7 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                   Text(widget.appointment!.client!.fullName!, style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 13.sp : 16.sp
                   )),
                 ],
               ),
@@ -172,7 +172,7 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
                     fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 12.sp : 16.sp
                   )),
                 ],
               ),
@@ -303,7 +303,7 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                       }, 
                       child: Text(AppLocalizations.of(context)!.add, style: TextStyle(
                         color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 14.sp
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 12.sp : 14.sp
                       ))
                     ),
                   ),
@@ -428,7 +428,7 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
                       }, 
                       child: Text(AppLocalizations.of(context)!.pay, style: TextStyle(
                         color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 14.sp
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 13.sp : 14.sp
                       ))
                     ),
                   ),

@@ -61,20 +61,20 @@ class _SPUserWidgetState extends State<SPUserWidget> {
                     Row(
                       children: [
                         Text(widget.spUser!.name!, textAlign: TextAlign.start, style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 4.sp : 17.sp, 
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 13.sp : 17.sp, 
                           fontWeight: FontWeight.w700)),
                       ],
                     ),
                     Row(
                       children: [
                         Text(widget.spUser!.email!, textAlign: TextAlign.start, style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 3.sp : 16.sp))
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 12.sp : 16.sp))
                       ],
                     ),
                     Row(
                       children: [
                         Text(widget.spUser!.mobileNb!, textAlign: TextAlign.start, style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 3.sp : 15.sp)),
+                          fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 12.sp : 15.sp)),
                       ],
                     )
                   ],

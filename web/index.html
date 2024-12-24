@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcdajOEZGRByirnrwQ2tCxTe9vxGlWgM0"></script>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -54,6 +54,14 @@
             appRunner.runApp();
           });
         }
+      });
+    });
+  </script>
+  <script type="text/javascript">
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "e17aafef-af94-4ed5-b729-c74c74ff5547",
       });
     });
   </script>

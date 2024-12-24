@@ -54,7 +54,7 @@ class _ServiceProvidedWidgetState extends State<ServiceProvidedWidget> {
                           : 
                           Image.network(swaggerImagesUrl + "Services/" + widget.service!.image!, fit: BoxFit.cover,
                           errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
-                            return Icon(Icons.error);
+                            return Icon(Icons.medical_services);
                           },)
                         ),
                 ),
@@ -71,7 +71,7 @@ class _ServiceProvidedWidgetState extends State<ServiceProvidedWidget> {
                             widget.service!.name!,
                             style: TextStyle(fontWeight: FontWeight.w500, 
                             fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
-                            fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
+                            fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 14.sp : 17.sp),
                           ),
                         ],
                       ),
@@ -87,11 +87,11 @@ class _ServiceProvidedWidgetState extends State<ServiceProvidedWidget> {
                                 children: [
                                   TextSpan(
                                     text: widget.service!.price!.toString(),
-                                      style: TextStyle(color:Colors.black, fontWeight: FontWeight.w400, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 4.sp :17.sp),
+                                      style: TextStyle(color:Colors.black, fontWeight: FontWeight.w400, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 14.sp :17.sp),
                                   ),
                                   TextSpan(
                                     text: '  '+AppLocalizations.of(context)!.sar,
-                                      style: TextStyle(color:Colors.black, fontWeight: FontWeight.w300, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 4.sp :15.sp),
+                                      style: TextStyle(color:Colors.black, fontWeight: FontWeight.w300, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 12.sp :15.sp),
                                   ),
                                 ],
                               ),
@@ -223,7 +223,7 @@ class ServiceDetails extends StatelessWidget {
                             service!.name!,
                             style: TextStyle(color: silverLakeBlue, 
                              fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
-                            fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 17.sp),
+                            fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 14.sp : 17.sp),
                           ),
                         ],
                       ),
@@ -239,7 +239,7 @@ class ServiceDetails extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                       child: Text(
                         service!.description!,
-                        style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 6.sp : 16.sp),
+                        style: TextStyle(color: silverLakeBlue, fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 12.sp : 16.sp),
                       ),
                     ),
                   ],
