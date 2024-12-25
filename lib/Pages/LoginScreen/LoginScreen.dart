@@ -205,12 +205,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                           setState(() {
                             isLoading = true;
                           });
-                          var onesignalId = '';
+                          var onesignalId = '2219b7bc-722b-e852-e229-0e2ead6f9cdf';
                           if(!kIsWeb){
                             onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
                           }
                           else if(kIsWeb){
                             onesignalId = await getOneSignalPlayerId();
+                            log(onesignalId);
                           }
 
 
@@ -252,8 +253,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                             //  print('before getting info');
                             //  print(tokenMap["Id"]);
                              await getServiceProviderBasicInfo(tokenMap["Id"]);
-                             if(!kIsWeb)
-                             OneSignal.login(onesignalId ?? '');
+                             if(!kIsWeb){
+                               OneSignal.login(onesignalId ?? '');
+                             }
+                             else if(kIsWeb){
+                              //  loginWeb(onesignalId ?? '');
+                             }
                             //  print('after getting info');
                                await prefs.setString('deviceId',onesignalId);
                                

@@ -188,7 +188,7 @@ Future<String> getPrivacyPolicy() async {
 
 void getLoyaltyPoints(String id) async {
   var response = await http.get(
-    Uri.parse("https://testapi.esnadtakaful.com/api/LoyaltyProgram/GetHCPPointsGained?Id=" + id.toString()),
+    Uri.parse(swaggerApiUrl+"LoyaltyProgram/GetHCPPointsGained?Id=" + id.toString()),
     headers: {
       "Accept": "application/json",
       "content-type":"application/json"

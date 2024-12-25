@@ -32,9 +32,6 @@ void main() async{
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  // if(kIsWeb){
-  //   OneSignalWeb.initialize();
-  // }
   
   runApp(
     ProviderScope(
