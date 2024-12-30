@@ -60,8 +60,8 @@ class _PayingDialogState extends State<PayingDialog> with Observer {
           Container(
             child: Lottie.asset(
               'assets/animations/paying.json',
-              width: 80.w,
-              height: 80.w,
+              width: 40.w,
+              height: 40.w,
             ),
           ),
         ],

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/UploadBillScreen.dart';
 import 'package:besure_hcp/Services/PaymentServices.dart';
@@ -22,7 +24,14 @@ class ConfirmationPopUp extends ConsumerStatefulWidget {
 class _ConfirmationPopUpState extends ConsumerState<ConfirmationPopUp> {
 
   Future<void> sendWebSocketMessage() async{
-    var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    var onesignalId = '';
+    if(kIsWeb){
+      onesignalId = await getOneSignalPlayerId();
+    }
+    else{
+      onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    }
+
     log(onesignalId+' on send msg');
     final prefs = await SharedPreferences.getInstance();
     String id = prefs.getString('SPId') ?? '';

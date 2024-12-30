@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:besure_hcp/Constants/constantFontFamily.dart';
 import 'package:besure_hcp/Constants/constantUrls.dart';
 import 'package:besure_hcp/Dialogs/MsgDialog.dart';
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
 import 'package:besure_hcp/Models/Appointment.dart';
 import 'package:besure_hcp/Pages/LoginScreen/LoginScreen.dart';
 import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
@@ -11,6 +12,7 @@ import 'package:besure_hcp/Pages/TakeServicesScreens/ConfirmServices.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/TakeServicesScreen.dart';
 import 'package:besure_hcp/RiverpodProviders/riverpodProviders.dart';
 import 'package:besure_hcp/configure_ws.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Models/Service.dart';
@@ -65,7 +67,14 @@ class _AppointmentDetailsState extends ConsumerState<AppointmentDetails>{
   
 
   void sendWebSocketMessage(List<ServiceModel> list) async{
-    var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    var onesignalId = '2219b7bc-722b-e852-e229-0e2ead6f9cdf';
+    if(!kIsWeb){
+      onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    }
+    else if(kIsWeb){
+      onesignalId = await getOneSignalPlayerId();
+      log(onesignalId);
+    }
     log(onesignalId+' on send msg');
     final prefs = await SharedPreferences.getInstance();
         String id = prefs.getString('SPId') ?? '';

@@ -211,7 +211,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                           }
                           else if(kIsWeb){
                             onesignalId = await getOneSignalPlayerId();
-                            log(onesignalId);
+                            loginWeb(onesignalId);
+                            print('login  '+onesignalId);
                           }
 
 

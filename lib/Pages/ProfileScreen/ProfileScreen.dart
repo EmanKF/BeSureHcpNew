@@ -2,6 +2,7 @@ import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Constants/constantFontFamily.dart';
 import 'package:besure_hcp/Constants/constantUrls.dart';
 import 'package:besure_hcp/Dialogs/ProfileDialog.dart';
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
 import 'package:besure_hcp/Pages/AppointmentsScreen/AppointmentsScreen.dart';
 import 'package:besure_hcp/Pages/BaseScreen/BaseScreen.dart';
 import 'package:besure_hcp/Pages/BranchesScreen/BranchesScreen.dart';
@@ -16,6 +17,7 @@ import 'package:besure_hcp/Pages/ServicesProvidedScreen/ServicesProvidedScreen.d
 import 'package:besure_hcp/Pages/SettingsScreen/SettingsScreen.dart';
 import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
 import 'package:besure_hcp/Pages/TransactionsScreen/TransactionsScreen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_observer/Observable.dart';
@@ -279,7 +281,12 @@ class _ProfileScreenState extends State<ProfileScreen> with Observer{
                     BranchesScreen.approvedBranches.clear();
                     ServicesProvidedScreen.allApprovedServices.clear();
                     ServicesProvidedScreen.allServices.clear();
-                    OneSignal.logout();
+                    if(!kIsWeb){
+                      OneSignal.logout();
+                    }
+                    // else{
+                    //   logoutFromOneSignal();
+                    // }
                     LoginScreen.SPSAID = '';
                     BaseScreen.loggedInSP = null;
                     Navigator.pushReplacement(context,

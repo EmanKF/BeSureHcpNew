@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 // final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
@@ -17,6 +18,11 @@ import 'package:sizer/sizer.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+
+ Future<void> clearCacheOnStartup() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.clear(); // Clear cached data
+}   
 
 void main() async{
 
@@ -31,7 +37,7 @@ void main() async{
       InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
+  await clearCacheOnStartup();
   
   runApp(
     ProviderScope(

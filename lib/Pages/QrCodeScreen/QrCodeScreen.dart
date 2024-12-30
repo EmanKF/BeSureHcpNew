@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 import 'package:besure_hcp/Constants/constantFontFamily.dart';
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
 import 'package:besure_hcp/Models/Branch.dart';
 import 'package:besure_hcp/Pages/BaseScreen/BaseScreen.dart';
 import 'package:besure_hcp/Pages/BranchesScreen/BranchesScreen.dart';
@@ -341,7 +342,14 @@ class _QrCodeScreenState extends ConsumerState<QrCodeScreen> {
                                     showDialog(context: context, builder: (context) => MsgDialog(msg: AppLocalizations.of(context)!.notSubscriber));
                                   }
                                   else if( sObj.clientId != ''){
-                                    var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+                                    var onesignalId = '';
+                                    if(!kIsWeb){
+                                      onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+                                    }
+                                    else if(kIsWeb){
+                                      onesignalId = await getOneSignalPlayerId();
+                                      log(onesignalId);
+                                    }
                                     final message = {
                                       "Action":"ClientCardRequest",
                                       "SP":LoginScreen.SPSAID,

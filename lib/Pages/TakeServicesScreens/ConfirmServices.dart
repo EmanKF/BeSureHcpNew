@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:besure_hcp/Constants/constantColors.dart';
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
 import 'package:besure_hcp/Models/Service.dart';
 import 'package:besure_hcp/Pages/BaseScreen/BaseScreen.dart';
 import 'package:besure_hcp/Pages/HomeScreen/HomeSceen.dart';
@@ -10,6 +11,7 @@ import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/AfterPaymentScreen.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/Components/ConfirmationPopUp.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/Components/PayingDialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Pages/TakeServicesScreens/UploadBillScreen.dart';
 import 'package:besure_hcp/Services/PaymentServices.dart';
@@ -212,9 +214,14 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
                         String url = await payCredit(map);
                         log(url);
 
-                        /////////////////
+             var onesignalId = '';
+    if(kIsWeb){
+      onesignalId = await getOneSignalPlayerId();
+    }
+    else{
+      onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    }           /////////////////
                         ///
-                        var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
     log(onesignalId+' on send msg');
     final prefs = await SharedPreferences.getInstance();
     String id = prefs.getString('SPId') ?? '';
@@ -330,7 +337,14 @@ class _ConfirmServicesState extends ConsumerState<ConfirmServices> with Observer
 
                         /////////////////
                         ///
-                        var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+                        var onesignalId ='';
+                        if(kIsWeb){
+                          onesignalId = await getOneSignalPlayerId();
+                        }
+                        else{
+                          onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+                        }
+                        
     log(onesignalId+' on send msg');
     final prefs = await SharedPreferences.getInstance();
     String id = prefs.getString('SPId') ?? '';

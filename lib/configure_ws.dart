@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
 import 'package:besure_hcp/RiverpodProviders/riverpodProviders.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_observer/Observable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -17,7 +19,13 @@ class WebSocketService {
 
   // Public connect method
   Future<void> connect(WidgetRef ref) async {
-    var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    var onesignalId = '';
+    if(kIsWeb){
+      onesignalId = await getOneSignalPlayerId();
+    }
+    else{
+      onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    }
     log(onesignalId.toString()+' on connectig');
     if (channel != null) {
       log('WebSocket connection already established.');
@@ -31,7 +39,7 @@ class WebSocketService {
       if (id.isNotEmpty) {
         log('wss://api.esnadtakaful.com/api/ws?userId=$id');
         final url = 'wss://api.esnadtakaful.com/api/ws?userId=$id&deviceId=$onesignalId';
-        log('Connecting to WebSocket at $url');
+        print('Connecting to WebSocket at $url');
         channel = WebSocketChannel.connect(Uri.parse(url));
         log('WebSocket connected successfully.');
 

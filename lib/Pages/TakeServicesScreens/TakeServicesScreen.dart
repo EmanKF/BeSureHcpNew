@@ -4,10 +4,12 @@ import 'dart:ui';
 import 'package:besure_hcp/Constants/constantFontFamily.dart';
 import 'package:besure_hcp/Constants/constantUrls.dart';
 import 'package:besure_hcp/Dialogs/MsgDialog.dart';
+import 'package:besure_hcp/Functions/OneSignalWeb.dart';
 import 'package:besure_hcp/Pages/LoginScreen/LoginScreen.dart';
 import 'package:besure_hcp/Pages/SplashScreen/SplashScreen.dart';
 import 'package:besure_hcp/RiverpodProviders/riverpodProviders.dart';
 import 'package:besure_hcp/configure_ws.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:besure_hcp/Constants/constantColors.dart';
 import 'package:besure_hcp/Models/Service.dart';
@@ -101,7 +103,15 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
   }
 
   void sendWebSocketMessage(List<ServiceModel> list) async{
-    var onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    var onesignalId = '2219b7bc-722b-e852-e229-0e2ead6f9cdf';
+    if(!kIsWeb){
+      onesignalId = await OneSignal.User.getOnesignalId() ?? 'N/A';
+    }
+    else if(kIsWeb){
+      onesignalId = await getOneSignalPlayerId();
+      log(onesignalId);
+    }
+    
     log(onesignalId+' on send msg');
     final prefs = await SharedPreferences.getInstance();
         String id = prefs.getString('SPId') ?? '';
@@ -141,8 +151,8 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
           "Data":["String"],
           "ClientCard": mapList
             };
-            log(jsonEncode(message));
-            log(message.toString());
+            print(jsonEncode(message));
+            print(message.toString());
       ref.read(websocketProvider).sendMessage(jsonEncode(message));
   }
 
@@ -219,7 +229,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                   Text(AppLocalizations.of(context)!.name +":", style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 18.sp
                   )),
                   SizedBox(
                     width: 1.w,
@@ -227,7 +237,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                   Text(widget.sObj!.name!, style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 18.sp
                   )),
                 ],
               ),
@@ -254,7 +264,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                     fontWeight: FontWeight.w600,
                     color: silverLakeBlue,
                     fontFamily: SplashScreen.langId == 1 ? arabicHeadersFontFamily : null,
-                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 18.sp
+                    fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 16.sp : 18.sp
                   )),
                 ],
               ),
@@ -396,7 +406,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                       }, 
                       child: Text(AppLocalizations.of(context)!.add, style: TextStyle(
                         color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 14.sp : 16.sp
                       ))
                     ),
                   ),
@@ -528,7 +538,7 @@ class _TakeServicesScreenState extends ConsumerState<TakeServicesScreen> with Ob
                       }, 
                       child: Text(AppLocalizations.of(context)!.pay, style: TextStyle(
                         color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 8.sp : 16.sp
+                        fontSize: MediaQuery.of(context).size.width + 200 > MediaQuery.of(context).size.height ? 14.sp : 16.sp
                       ))
                     ),
                   ),
