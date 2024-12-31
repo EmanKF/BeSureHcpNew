@@ -14,7 +14,7 @@
     * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
     This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+    the --base-href argument provided to flutter build.
   -->
   <base href="$FLUTTER_BASE_HREF">
 
@@ -60,10 +60,23 @@
   <script type="text/javascript">
     window.OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
-      OneSignal.init({
-        appId: "e17aafef-af94-4ed5-b729-c74c74ff5547",
-      });
+        // Initialize OneSignal
+        OneSignal.init({
+            appId: "e17aafef-af94-4ed5-b729-c74c74ff5547",
+            safari_web_id: "web.onesignal.auto.13a94bce-1224-4d5f-912e-16820eddb8b3",
+            allowLocalhostAsSecureOrigin: true, // Allows testing on localhost
+        })
+        .then(() => {
+            console.log("OneSignal initialized successfully.");
+
+            // Prompt the user to allow notifications
+            OneSignal.showNativePrompt();
+        })
+        .catch((error) => {
+            console.error("OneSignal initialization error:", error);
+        });
     });
   </script>
+
 </body>
 </html>

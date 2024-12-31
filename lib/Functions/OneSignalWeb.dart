@@ -6,53 +6,51 @@ Future<String> getOneSignalPlayerId() async {
   // Initialize a variable to hold the OneSignal ID
   String oneSignalIdWeb = '';
 
-  // Define the dartCallback function in Dart before calling JavaScript
+  // Define the Dart callback function to be used by JavaScript
   js.context['dartCallback'] = (userId) {
-    // This callback will be called by JavaScript once the Promise is resolved
     oneSignalIdWeb = userId ?? '';
-    print('webbbb: $oneSignalIdWeb');
-
+    print('Web User ID: $oneSignalIdWeb');
   };
 
   try {
-    // Execute the JavaScript code to get the OneSignal User ID
+    // Execute JavaScript code to fetch the OneSignal User ID
     await js.context.callMethod('eval', [
       """
-      new Promise((resolve, reject) => {
-        OneSignal.push(function() {
-          OneSignal.getUserId(function(userId) {
-            console.log("OneSignal User ID:", userId);
-            if (userId) {
-              resolve(userId);
-            } else {
-              reject("User ID not found");
-            }
+      (function() {
+        return new Promise((resolve, reject) => {
+          OneSignal.push(function() {
+            OneSignal.getUserId(function(userId) {
+              if (userId) {
+                resolve(userId);
+              } else {
+                reject("User ID not found");
+              }
+            });
           });
+        })
+        .then(function(userId) {
+          console.log("OneSignal User ID resolved: ", userId);
+          window.dartCallback(userId); // Pass User ID to Dart
+        })
+        .catch(function(error) {
+          console.error("OneSignal Error: ", error);
+          window.dartCallback(null); // Pass null to Dart in case of error
         });
-      }).then(function(userId) {
-        console.log("Promise resolved with User ID: ", userId);
-        window.dartCallback(userId); // Pass userId to Dart
-        return userId;
-      }).catch(function(error) {
-        console.log("Promise rejected with error: ", error);
-        window.dartCallback(null); // Call Dart with error if necessary
-        throw error;
-      });
+      })();
       """
     ]);
-    
-    // Wait for the callback to set the OneSignal ID
+
+    // Wait until the callback updates the variable
     while (oneSignalIdWeb.isEmpty) {
-      await Future.delayed(Duration(milliseconds: 100)); // Wait until the callback updates the variable
+      await Future.delayed(Duration(milliseconds: 100)); // Polling delay
     }
   } catch (error) {
-    log('Error: $error');
+    print('Error fetching OneSignal User ID: $error');
   }
 
-  // Print and return the result after the Promise is resolved
-  print('endd: $oneSignalIdWeb');
   return oneSignalIdWeb;
 }
+
 
 void loginWeb(String id) {
   // Call the OneSignal method to set external user ID
